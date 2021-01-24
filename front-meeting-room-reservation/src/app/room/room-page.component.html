@@ -1,0 +1,6 @@
+<mat-card>
+  <span class="section-title">Les Salles de reunion</span>
+</mat-card>
+<div class="rooms">
+  <room-card *ngFor="let room of roomsList" [room]="room"></room-card>
+</div>

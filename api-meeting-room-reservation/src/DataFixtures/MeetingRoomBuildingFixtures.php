@@ -19,6 +19,7 @@ class MeetingRoomBuildingFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $building[$i] = new Building();
 
+            $fakerName = $faker->word;
             $fakerAddress = $faker->address;
             $streetAddress  = preg_split("/[\n]/", $fakerAddress)[0];
             $fakerCityZipCode = preg_split("/[\n]/", $fakerAddress)[1];
@@ -32,6 +33,7 @@ class MeetingRoomBuildingFixtures extends Fixture
             $fakerCity = str_replace($fakerZipCode, "", $fakerCityZipCode);
             $building[$i]->setAddress($streetAddress)
                 ->setCity($fakerCity)
+                ->setName($fakerName)
                 ->setZipcode(str_replace(" ", "", $fakerZipCode));
             $manager->persist($building[$i]);
         }
@@ -47,7 +49,7 @@ class MeetingRoomBuildingFixtures extends Fixture
         $meetingRoom = [];
         for ($k = 0; $k < 50; $k++) {
             $meetingRoom[$k] = new MeetingRoom();
-            $meetingRoom[$k]->setName($faker->name())
+            $meetingRoom[$k]->setName($faker->colorName)
                 ->setFloor($faker->randomDigitNotNull)
                 ->setImageUrl("https://cdn.pixabay.com/photo/2015/05/15/14/22/conference-room-768441_960_720.jpg");
 

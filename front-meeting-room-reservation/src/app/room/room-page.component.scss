@@ -1,0 +1,21 @@
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  padding: 1.5em;
+}
+
+.rooms {
+  padding: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+room-card {
+  width: calc(100% / 4);
+}

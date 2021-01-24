@@ -1,0 +1,24 @@
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.spacer {
+  flex: 1 1 auto;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+}
+
+.toolbar-link {
+  margin: 5em;
+}

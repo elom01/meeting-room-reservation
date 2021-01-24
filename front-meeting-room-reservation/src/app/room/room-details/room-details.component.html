@@ -1,0 +1,14 @@
+<mat-card class="card-section-title">
+  <div class="img-room">
+    <img src="{{room.imageUrl}}">
+  </div>
+  <div class="details-room">
+    <div class="section-title"><label>Salle : </label><span>{{room.name}}</span></div>
+    <div class="section-subtitle"><label>Bâtiment : </label> <span>{{buildingDetail.name}}</span></div>
+    <div class="section-subtitle">{{buildingDetail.address}}, {{buildingDetail.zipcode}} {{buildingDetail.city}}</div>
+    <div class="section-subtitle"><label>Etage : </label> <span>{{room.floor}}</span></div>
+  </div>
+</mat-card>
+<div class="calendar">
+<full-calendar [options]="calendarOptions"></full-calendar>
+</div>

@@ -7,6 +7,7 @@ use App\Repository\MeetingRoomRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRoomRepository::class)
@@ -18,11 +19,13 @@ class MeetingRoom
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:building"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:building"})
      */
     private $name;
 
@@ -39,6 +42,7 @@ class MeetingRoom
     /**
      * @ORM\ManyToOne(targetEntity=Building::class, inversedBy="meetingRooms")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:building"})
      */
     private $building;
 

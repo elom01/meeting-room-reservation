@@ -1,0 +1,41 @@
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.card-section-title {
+  display: flex;
+}
+
+.img-room {
+  width: 25%;
+  display: flex;
+}
+
+.img-room img {
+  width: 100%;
+}
+
+.details-room {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+}
+
+.section-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 1em 0;
+  text-shadow: rgb(255, 255, 255) 3px 0 10px;
+}
+
+.section-subtitle {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-size: large;
+  font-weight: bold;
+  padding: 0.5em 0;
+  text-shadow: rgb(255, 255, 255) 3px 0 10px;
+}

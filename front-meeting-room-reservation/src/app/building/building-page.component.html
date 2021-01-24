@@ -1,0 +1,6 @@
+<mat-card class="card-section-title">
+  <span class="section-title">Les bâtiments</span>
+</mat-card>
+<div class="buildings">
+  <building-card *ngFor="let building of buildingsList" [building]="building"></building-card>
+</div>
