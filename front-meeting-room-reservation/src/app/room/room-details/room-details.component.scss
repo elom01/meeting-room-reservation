@@ -1,16 +1,29 @@
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+.cal-month-view .bg-red,
+.cal-week-view .cal-day-columns .bg-red,
+.cal-day-view .bg-red {
+  background-color: red !important;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  margin: 2em 0 55em 0;
+}
 
 .card-section-title {
+  height: 12em;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .img-room {
   width: 25%;
+  height: 100%;
   display: flex;
-}
-
-.img-room img {
-  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: 5px;
 }
 
 .details-room {
@@ -38,4 +51,42 @@
   font-weight: bold;
   padding: 0.5em 0;
   text-shadow: rgb(255, 255, 255) 3px 0 10px;
+}
+
+.calendar {
+  width: 100vw;
+  height: 100vh;
+}
+
+.calendar-container {
+  height: 75vh;
+  overflow: auto;
+}
+
+.header-calendar-date {
+  display: flex;
+  justify-content: center;
+}
+
+.header-calendar-change {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
+}
+
+.header-calendar-view {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.form-reservation {
+  display: flex;
+  flex-direction: column;
+}
+
+.register,
+.login {
+  display: flex;
+  flex-direction: column;
 }

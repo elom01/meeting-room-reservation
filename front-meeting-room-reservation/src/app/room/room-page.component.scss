@@ -1,15 +1,17 @@
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
-
-.section-title {
+.card-section-title {
+  height: 12em;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.section-title {
+  display: flex;
   font-size: xx-large;
-  padding: 1.5em;
 }
 
 .rooms {
-  padding: 3em;
+  padding: 2em 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

@@ -4,6 +4,6 @@
   <mat-card-subtitle>{{building.address}} {{building.zipcode}} {{building.city}}</mat-card-subtitle>
   <img mat-card-lg-image src="https://cdn.pixabay.com/photo/2017/04/24/13/37/architecture-2256489_1280.jpg" alt="batiment">
   <mat-card-actions>
-    <button mat-button>Voir les salles</button>
+    <button mat-button [routerLink]="['/building', building.id]">Voir les salles</button>
   </mat-card-actions>
 </mat-card>

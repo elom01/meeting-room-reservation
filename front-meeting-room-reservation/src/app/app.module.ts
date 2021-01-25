@@ -1,7 +1,3 @@
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
-import timeGridPlugin from '@fullcalendar/timegrid';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -17,14 +13,11 @@ import { BuildingCardComponent } from './building/building-card/building-card.co
 import { RoomCardComponent } from './room/room-card/room-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatIconModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BuildingRoomsComponent } from './building/building-rooms/building-rooms.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  interactionPlugin,
-  timeGridPlugin
-]);
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +40,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    FullCalendarModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatSidenavModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [],
   bootstrap: [AppComponent]

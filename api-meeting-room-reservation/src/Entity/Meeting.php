@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MeetingRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRepository::class)
@@ -16,16 +17,19 @@ class Meeting
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:meetingroom"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read:meetingroom"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read:meetingroom"})
      */
     private $endDate;
 

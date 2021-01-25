@@ -1,1 +1,30 @@
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+.header-presentation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 30em;
+  margin: 0.5em 0 2em 0;
+  background-image: url("https://cdn.pixabay.com/photo/2018/03/10/12/00/paper-3213924_1280.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: bold;
+  color: white;
+}
+
+.header-presentation .title {
+  font-size: xx-large;
+}
+
+.div-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgb(177, 175, 175);
+  margin: 2em 0;
+}
+
+.subtitle {
+  font-size: large;
+}

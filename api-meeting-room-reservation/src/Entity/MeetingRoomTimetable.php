@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MeetingRoomTimetableRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRoomTimetableRepository::class)
@@ -16,6 +17,7 @@ class MeetingRoomTimetable
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:meetingroom"})
      */
     private $id;
 
@@ -27,16 +29,19 @@ class MeetingRoomTimetable
 
     /**
      * @ORM\Column(type="time")
+     * @Groups({"read:meetingroom"})
      */
     private $openingTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups({"read:meetingroom"})
      */
     private $closureTime;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"read:meetingroom"})
      */
     private $openingDay;
 

@@ -1,13 +1,10 @@
-<button routerLink="/building">
-    Batiments
-</button>
-<button routerLink="/room">
-    Salles de réunion
-</button>
-
-<button routerLink="/admin">
-    Administration
-</button>
-<button routerLink="/profil">
-    Profil
-</button>
+<mat-card class="header-presentation">
+  <div>
+    <span class="title">Bienvenue sur Meeting-Room Reservation</span>
+  </div>
+  <div>
+    <span class="subtitle">Louez facilement des salles de réunion </span>
+  </div>
+</mat-card>
+<div class="div-title"><h2>Lieux de location</h2></div>
+<building-rooms *ngFor="let building of buildingsList" [building]="building"></building-rooms>

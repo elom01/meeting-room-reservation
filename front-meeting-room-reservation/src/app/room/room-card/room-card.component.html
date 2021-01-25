@@ -5,6 +5,6 @@
   <img mat-card-lg-image src="{{room.imageUrl}}"
     alt="salle de reunion">
   <mat-card-actions>
-    <button mat-button>Voir les horaires</button>
+    <button mat-button [routerLink]="['/room', room.id]"> Voir les horaires</button>
   </mat-card-actions>
 </mat-card>
