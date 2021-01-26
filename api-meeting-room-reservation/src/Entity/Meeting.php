@@ -9,7 +9,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext = {"groups"={"read:meeting"}},
+ *  denormalizationContext={"groups"={"write:meeting"}},
+ *  collectionOperations = {
+ * "get", 
+ * "post" = {
+ *      "controller"=App\Controller\API\MeetingController::class
+ * }}
+ * )
  */
 class Meeting
 {
@@ -17,31 +25,33 @@ class Meeting
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "read:meeting","read:user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "read:meeting", "write:meeting","read:user"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "read:meeting", "write:meeting","read:user"})
      */
     private $endDate;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="meetings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:meeting", "write:meeting"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=MeetingRoom::class, inversedBy="meetings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:meeting", "write:meeting"})
      */
     private $meetingRoom;
 

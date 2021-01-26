@@ -5,10 +5,14 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRightRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRightRepository::class)
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext={"groups"={"write:userright"}},
+ * denormalizationContext={"groups"={"write:userright"}},
+ * )
  */
 class UserRight
 {
@@ -16,18 +20,21 @@ class UserRight
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:userright"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userRights")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:userright","write:userright"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Right::class, inversedBy="userRights")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:userright","write:userright"})
      */
     private $rights;
 

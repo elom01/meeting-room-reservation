@@ -7,12 +7,16 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email")
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext={"groups"={"write:user"}},
+ * denormalizationContext={"groups"={"write:user"}}
+ * )
  */
 class User
 {
@@ -20,41 +24,49 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:meeting", "write:meeting", "read:userright", "write:userright"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:meeting","write:user", "read:userright"})
      */
     private $familyname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:meeting","write:user", "read:userright"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:meeting","write:user", "read:userright"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Groups({"read:meeting","write:user", "read:userright"})
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"write:user"})
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity=UserRight::class, mappedBy="user")
+     * @Groups({"write:user"})
      */
     private $userRights;
 
     /**
      * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="user")
+     * @Groups({"read:user"})
      */
     private $meetings;
 

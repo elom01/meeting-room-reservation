@@ -9,7 +9,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRoomTimetableRepository::class)
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext = {"groups"={"read:timetable"}},
+ * denormalizationContext={"groups"={"write:timetable"}},
+ * )
  */
 class MeetingRoomTimetable
 {
@@ -17,31 +20,32 @@ class MeetingRoomTimetable
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "read:timetable"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=MeetingRoom::class, inversedBy="meetingRoomTimetables")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"write:meetingroom","read:timetable", "write:timetable"})
      */
     private $meetingRoom;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "read:timetable","write:timetable"})
      */
     private $openingTime;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom","read:timetable", "write:timetable"})
      */
     private $closureTime;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom","read:timetable","write:timetable"})
      */
     private $openingDay;
 

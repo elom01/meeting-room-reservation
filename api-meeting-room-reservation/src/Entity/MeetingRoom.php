@@ -11,7 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRoomRepository::class)
- * @ApiResource(normalizationContext = {"groups"={"read:meetingroom"}})
+ * @ApiResource(
+ * normalizationContext = {"groups"={"read:meetingroom"}},
+ * denormalizationContext={"groups"={"write:meetingroom"}},
+ * )
  */
 class MeetingRoom
 {
@@ -19,32 +22,32 @@ class MeetingRoom
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "read:meeting", "write:meeting", "write:timetable", "read:timetable"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "read:meeting","write:meetingroom", "read:timetable"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building","read:meetingroom"})
+     * @Groups({"read:building","read:meetingroom", "read:meeting","write:meetingroom", "read:timetable"})
      */
     private $floor;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "read:meeting", "write:meetingroom", "read:timetable"})
      */
     private $imageUrl;
 
     /**
      * @ORM\ManyToOne(targetEntity=Building::class, inversedBy="meetingRooms")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read:meetingroom"})
+     * @Groups({"read:meetingroom", "write:meetingroom"})
      */
     private $building;
 

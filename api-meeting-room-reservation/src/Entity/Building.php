@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=BuildingRepository::class)
  * @ApiResource(
  * normalizationContext = {"groups"={"read:building"}},
+ * denormalizationContext={"groups"={"write:building"}},
  *  collectionOperations = {"get"},
  *  itemOperations = {"get"}
  * )
@@ -28,24 +29,24 @@ class Building
     private $id;
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom","write:building", "write:meetingroom"})
      */
     private $name;
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "write:building"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "write:building"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=5)
-     * @Groups({"read:building", "read:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom", "write:building"})
      */
     private $zipcode;
 
