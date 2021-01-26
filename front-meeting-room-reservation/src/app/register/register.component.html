@@ -1,0 +1,31 @@
+<mat-card class="form-reservation ">
+  <h3>S'enregister</h3>
+  <form class="register" autocomplete="off" [formGroup]="formRegister">
+    <mat-form-field>
+      <mat-label>Nom</mat-label>
+      <input matInput name="familyname" formControlName="familyname">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Prénom</mat-label>
+      <input matInput name="firstname" formControlName="firstname">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Télephone</mat-label>
+      <input matInput name="phoneNumber" formControlName="phoneNumber">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" name="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Vérifiez votre mot de passe</mat-label>
+      <input matInput type="password" name="checkPassword">
+    </mat-form-field>
+    <button *ngIf="!isEditForm" type="submit" [disabled]="isLoading | async" mat-raised-button color="accent"
+      (click)="onRegister()">Enregistrer</button>
+  </form>
+</mat-card>

@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Réservation</h1>
+<div mat-dialog-content>
+  <p>Voulez-vous reserver la salle?</p>
+<mat-form-field>
+  <mat-label>Heure de début</mat-label>
+  <input matInput type="datetime" [(ngModel)]="data.date">
+</mat-form-field>
+<mat-form-field>
+  <mat-label>Heure de début</mat-label>
+  <input matInput type="time" [(ngModel)]="data.start">
+</mat-form-field>
+<mat-form-field>
+  <mat-label>Heure de fin</mat-label>
+  <input matInput type="time" [(ngModel)]="data.end">
+</mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Non</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

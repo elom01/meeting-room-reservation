@@ -4,12 +4,6 @@
   background-color: red !important;
 }
 
-.body {
-  display: flex;
-  flex-direction: row;
-  margin: 2em 0 55em 0;
-}
-
 .card-section-title {
   height: 12em;
   display: flex;
@@ -53,40 +47,6 @@
   text-shadow: rgb(255, 255, 255) 3px 0 10px;
 }
 
-.calendar {
-  width: 100vw;
-  height: 100vh;
-}
-
-.calendar-container {
-  height: 75vh;
-  overflow: auto;
-}
-
-.header-calendar-date {
-  display: flex;
-  justify-content: center;
-}
-
-.header-calendar-change {
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 1em;
-}
-
-.header-calendar-view {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
-}
-
-.form-reservation {
-  display: flex;
-  flex-direction: column;
-}
-
-.register,
-.login {
-  display: flex;
-  flex-direction: column;
+.div-id_room {
+  display: none;
 }

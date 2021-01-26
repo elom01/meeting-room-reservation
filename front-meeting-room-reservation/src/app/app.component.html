@@ -10,7 +10,7 @@
     <mat-icon>meeting_room</mat-icon> Salles
   </button>
   <span class="spacer"></span>
-  <button mat-icon-button class="" routerLink="/profil">
+  <button mat-icon-button class="" routerLink="authService.isAuthenticated() ? '/profil':'#!'" (click)="authService.isAuthenticated() ? null :openSideNav()">
     <mat-icon>person</mat-icon>
   </button>
   <button mat-icon-button class="" routerLink="/admin">
@@ -18,5 +18,11 @@
   </button>
 </mat-toolbar>
 <div class="container-reservation">
+  <mat-sidenav-container class="body">
+    <mat-sidenav #sidenav (keydown.escape)="closeSideNav()" class="side-nav" position="end">
+      <register></register>
+      <login></login>
+    </mat-sidenav>
   <router-outlet></router-outlet>
+  </mat-sidenav-container>
 </div>

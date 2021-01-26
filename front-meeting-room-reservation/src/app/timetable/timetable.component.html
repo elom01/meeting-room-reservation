@@ -1,0 +1,51 @@
+<mat-card class="">
+  <div class="calendar-header">
+    <div class="header-calendar-date">
+      <h3>{{ viewDate | calendarDate: view + 'ViewTitle':locale }}</h3>
+    </div>
+    <div class="header-calendar-change">
+      <button mat-icon-button class="btn btn-primary" mwlCalendarPreviousView [(view)]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="viewDateChange.next(viewDate)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-icon-button class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate"
+        (viewDateChange)="viewDateChange.next(viewDate)">
+        Aujourd'hui
+      </button>
+      <button mat-icon-button class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="viewDateChange.next(viewDate)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+    <div class="header-calendar-view">
+      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Month)"
+        [class.active]="view === CalendarView.Month">
+        Mois
+      </button>
+      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Week)"
+        [class.active]="view === CalendarView.Week">
+        Semaine
+      </button>
+      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Day)"
+        [class.active]="view === CalendarView.Day">
+        Jour
+      </button>
+    </div>
+  </div>
+  <div [ngSwitch]="view" class="calendar-container">
+    <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events"
+      (columnHeaderClicked)="clickedColumn = $event.isoDayNumber" (dayClicked)="changeDay($event.day.date)"
+      [activeDayIsOpen]="true" (eventClicked)="eventClicked($event)" (beforeViewRender)="beforeMonthViewRender($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
+      (eventClicked)="eventClicked($event)" (dayHeaderClicked)="clickedDate = $event.day.date"
+      (hourSegmentClicked)="addEvent($event.date)" (beforeViewRender)="beforeWeekViewRender($event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events"
+      (eventClicked)="eventClicked($event)" (dayHeaderClicked)="clickedDate = $event.day.date"
+      (hourSegmentClicked)="clickedDate = $event.date" (beforeViewRender)="beforeDayViewRender($event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+  </div>
+</mat-card>
