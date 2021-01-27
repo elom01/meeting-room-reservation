@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MeetingRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -54,7 +55,7 @@ class Meeting
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"read:meeting", "write:meeting"})
      */
-    private $user;
+    private UserInterface $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=MeetingRoom::class, inversedBy="meetings")
@@ -102,12 +103,12 @@ class Meeting
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(UserInterface $user): self
     {
         $this->user = $user;
 

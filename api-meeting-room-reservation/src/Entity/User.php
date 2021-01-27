@@ -68,7 +68,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
@@ -111,6 +111,9 @@ class User implements UserInterface
         $this->meetings = new ArrayCollection();
     }
 
+    /**
+     * @see UserInterface
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -152,8 +155,6 @@ class User implements UserInterface
         return $this;
     }
     /**
-     * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): ?string
@@ -257,11 +258,8 @@ class User implements UserInterface
 
     public function removeMeeting(Meeting $meeting): self
     {
-        if ($this->meetings->removeElement($meeting)) {
-            // set the owning side to null (unless already changed)
-            if ($meeting->getUser() === $this) {
-                $meeting->setUser(null);
-            }
+        if ($this->meetings->contains($meeting)) {
+            $this->meetings->removeElement($meeting);
         }
 
         return $this;
@@ -279,9 +277,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     /**
      * @see UserInterface
      */
