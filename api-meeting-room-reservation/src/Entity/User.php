@@ -9,59 +9,94 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity("email")
+ * @UniqueEntity({"email", "username"})
  * @ApiResource(
- * normalizationContext={"groups"={"write:user"}},
- * denormalizationContext={"groups"={"write:user"}}
+ * normalizationContext={"groups"={"read:user"}},
+ * denormalizationContext={"groups"={"write:user"}},
+ * collectionOperations = {
+ *  "get", 
+ * "post" = {
+ *      "controller"=App\Controller\API\UserCreateController::class
+ * }},
+ * itemOperations = {
+ * "get",
+ * "put" = {
+ *      "controller"=App\Controller\API\UserUpdateController::class
+ * } ,
+ * "patch", 
+ * "delete"}
  * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read:meeting", "write:meeting", "read:userright", "write:userright"})
+     * @Groups({"read:user","read:meeting", "write:meeting", "read:userright", "write:userright"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:meeting","write:user", "read:userright"})
+     * @Groups({"read:user","read:meeting","write:user", "read:userright"})
      */
     private $familyname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:meeting","write:user", "read:userright"})
+     * @Groups({"read:user","read:meeting","write:user", "read:userright"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:meeting","write:user", "read:userright"})
+     * @Groups({"read:user","read:meeting","write:user", "read:userright"})
      */
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"read:user","read:meeting","write:user", "read:userright"})
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles;
+
+    /**
      * @ORM\Column(type="string", length=20, nullable=true)
-     * @Groups({"read:meeting","write:user", "read:userright"})
+     * @Groups({"read:user","read:meeting","write:user", "read:userright"})
      */
     private $phoneNumber;
 
     /**
+     * @var string The hashed password
      * @ORM\Column(type="string", length=255)
      * @Groups({"write:user"})
      */
     private $password;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+    /**
+     * @ORM\Column(type="datetime" , nullable=true)
+     */
+    private $updateDate;
+
+    /**
      * @ORM\OneToMany(targetEntity=UserRight::class, mappedBy="user")
      * @Groups({"write:user"})
      */
+
     private $userRights;
 
     /**
@@ -116,6 +151,22 @@ class User
 
         return $this;
     }
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     public function getPhoneNumber(): ?string
     {
@@ -129,6 +180,9 @@ class User
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -137,6 +191,18 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }
@@ -199,5 +265,58 @@ class User
         }
 
         return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+
+    /**
+     * @see UserInterface
+     */
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
     }
 }

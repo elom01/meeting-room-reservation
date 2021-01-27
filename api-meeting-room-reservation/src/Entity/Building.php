@@ -14,8 +14,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  * normalizationContext = {"groups"={"read:building"}},
  * denormalizationContext={"groups"={"write:building"}},
- *  collectionOperations = {"get"},
- *  itemOperations = {"get"}
+ * collectionOperations = {
+ *  "get", 
+ * "post" = {
+ *      "controller"=App\Controller\API\BuildingCreateController::class
+ * }},
+ * itemOperations = {
+ * "get",
+ * "put" = {
+ *      "controller"=App\Controller\API\BuildingUpdateController::class
+ * },
+ * "patch", 
+ * "delete"}
  * )
  */
 class Building
@@ -49,6 +59,16 @@ class Building
      * @Groups({"read:building", "read:meetingroom", "write:building"})
      */
     private $zipcode;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @ORM\Column(type="datetime" , nullable=true)
+     */
+    private $updateDate;
 
     /**
      * @ORM\OneToMany(targetEntity=MeetingRoom::class, mappedBy="building")
@@ -110,6 +130,18 @@ class Building
     public function setZipcode(string $zipcode): self
     {
         $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }

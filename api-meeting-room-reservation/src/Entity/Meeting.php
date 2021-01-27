@@ -15,8 +15,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  collectionOperations = {
  * "get", 
  * "post" = {
- *      "controller"=App\Controller\API\MeetingController::class
- * }}
+ *      "controller"=App\Controller\API\MeetingCreateController::class
+ * }},
+ * 
+ * itemOperations = {
+ * "get",
+ * "put" = {
+ *      "controller"=App\Controller\API\MeetingUpdateController::class
+ * },
+ * "patch", 
+ * "delete"}
  * )
  */
 class Meeting

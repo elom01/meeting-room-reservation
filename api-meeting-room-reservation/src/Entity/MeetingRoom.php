@@ -14,6 +14,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  * normalizationContext = {"groups"={"read:meetingroom"}},
  * denormalizationContext={"groups"={"write:meetingroom"}},
+ * collectionOperations = {
+ *  "get", 
+ * "post" = {
+ *      "controller"=App\Controller\API\RoomCreateController::class
+ * }},
+ * itemOperations = {
+ * "get",
+ * "put" = {
+ *      "controller"=App\Controller\API\RoomUpdateController::class
+ * },
+ * "patch", 
+ * "delete"}
  * )
  */
 class MeetingRoom
@@ -43,6 +55,16 @@ class MeetingRoom
      * @Groups({"read:building", "read:meetingroom", "read:meeting", "write:meetingroom", "read:timetable"})
      */
     private $imageUrl;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+    /**
+     * @ORM\Column(type="datetime" , nullable=true)
+     */
+    private $updateDate;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=Building::class, inversedBy="meetingRooms")
@@ -106,6 +128,30 @@ class MeetingRoom
     public function setImageUrl(?string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }

@@ -12,6 +12,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  * normalizationContext = {"groups"={"read:timetable"}},
  * denormalizationContext={"groups"={"write:timetable"}},
+ * collectionOperations = {
+ *  "get", 
+ * "post" = {
+ *      "controller"=App\Controller\API\TimetableCreateController::class
+ * }},
+ * itemOperations = {
+ * "get",
+ * "put" = {
+ *      "controller"=App\Controller\API\TimetableUpdateController::class
+ * },
+ * "patch", 
+ * "delete"
+ * }
  * )
  */
 class MeetingRoomTimetable
@@ -51,6 +64,10 @@ class MeetingRoomTimetable
 
     /**
      * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+    /**
+     * @ORM\Column(type="datetime" , nullable=true)
      */
     private $updateDate;
 
@@ -107,12 +124,24 @@ class MeetingRoomTimetable
         return $this;
     }
 
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
     public function getUpdateDate(): ?\DateTimeInterface
     {
         return $this->updateDate;
     }
 
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
 

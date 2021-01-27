@@ -1,24 +1,101 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        users_in_memory: { memory: null }
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: true
-            lazy: true
-            provider: users_in_memory
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  hide_user_not_found: false
+  encoders:
+        App\Entity\User:
+            algorithm: auto
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    login:
+      pattern: ^/api/login
+      stateless: true
+      anonymous: true
+      provider: app_user_provider
+      guard:
+        authenticators:
+            - lexik_jwt_authentication.jwt_token_authenticator
+      json_login:
+        check_path: app_login
+        username_path: email
+        password_path: password
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+    users:
+        pattern: ^/api/users
+        methods: [PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    buildings:
+        pattern: ^/api/buildings
+        methods: [POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    meetings:
+        pattern: ^/api/meetings
+        methods: [POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    meeting_rooms:
+        pattern: ^/api/meeting_rooms
+        methods: [POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    meeting_room_timetables:
+        pattern: ^/api/meeting_room_timetables
+        methods: [POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    rights:
+        pattern: ^/api/rights
+        methods: [GET, POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    user_rights:
+        pattern: ^/api/user_rights
+        methods: [GET, POST, PUT, PATCH, DELETE]
+        stateless: true
+        guard:
+            authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+    main:
+      anonymous: true
+      lazy: true
+      provider: app_user_provider
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods:[PUT, PATCH, DELETE] }
+        - { path: ^/api/meetings, roles: IS_AUTHENTICATED_FULLY, methods:[POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/buildings, roles: ROLE_ADMIN, methods:[POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/meeting_rooms, roles: ROLE_ADMIN, methods:[POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/meeting_room_timetables, roles: ROLE_ADMIN, methods:[POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/rights, roles: ROLE_ADMIN, methods:[GET, POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/user_rights, roles: ROLE_ADMIN, methods:[GET, POST, PUT, PATCH, DELETE] }

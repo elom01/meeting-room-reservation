@@ -17,6 +17,7 @@ class UserRightFixtures extends Fixture
 
         $user = new User();
         $user->setEmail("admin@admin.fr");
+        $user->setUsername("admin@admin.fr");
         $user->setFamilyname("Admin");
         $user->setFirstname("User");
         $user->setPassword("admin");
