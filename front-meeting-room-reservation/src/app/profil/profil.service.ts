@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
+import { Meeting } from "../models/meeting.model";
 import { User } from "../models/user.model";
 
 @Injectable({
@@ -8,15 +9,20 @@ import { User } from "../models/user.model";
 })
 export class ProfilService {
   baseUrl: String = environment.apiUrl;
+  private headers: HttpHeaders = new HttpHeaders({
+    Accept: "application/json",
+  });
   constructor(private http: HttpClient) {}
-  getUsers() {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append("Accept", "application/json");
-    return this.http.get<User[]>(this.baseUrl + "users", {
-      headers: headers,
+
+  getUser(id: number) {
+    return this.http.get<User>(this.baseUrl + "users/" + id, {
+      headers: this.headers,
     });
   }
-  getUser(id: number) {
-    return this.http.get<User>(this.baseUrl + "users/" + id);
+
+  getUserMeetings(id: number) {
+    return this.http.get<Meeting[]>(this.baseUrl + "meetings/" + id, {
+      headers: this.headers,
+    });
   }
 }

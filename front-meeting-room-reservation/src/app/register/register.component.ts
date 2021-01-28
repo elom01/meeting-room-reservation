@@ -15,6 +15,7 @@ import { User } from "../models/user.model";
   styleUrls: ["./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
+  private _snackBar: any;
   public formRegister: FormGroup;
   public registerFormHasBeenSubmitted: boolean = false;
   public dataUser: User;
@@ -62,7 +63,16 @@ export class RegisterComponent implements OnInit {
     this.registerFormHasBeenSubmitted = true;
 
     if (!this.formRegister.invalid) {
-      this.authService.register(this.getRegisterFormData());
+      this.authService
+        .register(this.getRegisterFormData())
+        .subscribe((user) => {
+          this.openSnackBar("");
+        });
     }
+  }
+  openSnackBar(message: string) {
+    this._snackBar.open(message, {
+      duration: 2000,
+    });
   }
 }

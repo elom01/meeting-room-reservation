@@ -14,12 +14,12 @@
       <h2>Vos réservations</h2>
     </div>
     <div class="div-reservations">
-      <mat-card class="card-reservation" *ngFor="let meeting of user.meetings">
+      <mat-card class="card-reservation" *ngFor="let meeting of meetingsList">
         <mat-card-content class="card-content">
-            <p>Salle:</p>
-            <p>Etage :</p>
-            <p>Bâtiment : </p>
-            <p><label>Adresse :</label> <br/> <span></span></p>
+            <p>Salle:{{meeting.meetingRoom.name}}</p>
+            <p>Etage :{{meeting.meetingRoom.floor}}</p>
+            <p>Bâtiment : {{meeting.meetingRoom.building.name}}</p>
+            <p><label>Adresse :</label> <br/> <span>{{meeting.meetingRoom.building.address}} {{meeting.meetingRoom.building.zipcode}} {{meeting.meetingRoom.building.city}}</span></p>
             <p>{{meeting.startDate}} - {{meeting.endDate}}</p>
         </mat-card-content>
         <mat-card-actions class="div-reservation">

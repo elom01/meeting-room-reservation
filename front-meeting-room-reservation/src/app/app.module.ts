@@ -40,6 +40,7 @@ import { RegisterComponent } from "./register/register.component";
 import { TimetableComponent } from "./timetable/timetable.component";
 import { BuildingFormComponent } from "./building/building-form/building-form.component";
 import { RoomFormComponent } from "./room/room-form/room-form.component";
+import { DeleteDialogComponent } from "./delete-dialog/delete-dialog.component";
 
 @NgModule({
   declarations: [
@@ -59,8 +60,14 @@ import { RoomFormComponent } from "./room/room-form/room-form.component";
     TimetableComponent,
     BuildingFormComponent,
     RoomFormComponent,
+    DeleteDialogComponent,
   ],
-  entryComponents: [EventComponent, BuildingFormComponent, RoomFormComponent],
+  entryComponents: [
+    EventComponent,
+    BuildingFormComponent,
+    RoomFormComponent,
+    DeleteDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

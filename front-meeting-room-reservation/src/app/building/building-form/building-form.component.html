@@ -1,6 +1,5 @@
 <h1 mat-dialog-title class="form-title">Bâtiment</h1>
 <div mat-dialog-content class="form-input">
-
   <mat-form-field class="input-id">
     <mat-label>Id</mat-label>
     <input matInput type="text" [(ngModel)]="data.building.id" readonly>
@@ -24,5 +23,5 @@
 </div>
 <div mat-dialog-actions class="form-button">
   <button color="warn" mat-button [mat-dialog-close]>Annuler</button>
-  <button color="primary" mat-button [mat-dialog-close] (onClick)="saveBuilding">Ajouter</button>
+  <button color="primary" mat-button (onClick)="saveBuilding(data.building, data.building.id)">Ajouter</button>
 </div>

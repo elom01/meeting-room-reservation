@@ -5,6 +5,7 @@ import { BuildingService } from "../building/building.service";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material";
 import { BuildingFormComponent } from "../building/building-form/building-form.component";
+import { DeleteDialogComponent } from "../delete-dialog/delete-dialog.component";
 
 @Component({
   selector: "app-admin-page",
@@ -62,7 +63,21 @@ export class AdminPageComponent implements OnInit, OnDestroy {
 
   public clickDetailsBuilding(building: Building) {
     this.building = building;
+    this.buildingService
+      .getBuildingMeetingRooms(building.id)
+      .subscribe((meetingRooms) => {
+        this.meetingRoomsList = meetingRooms;
+      });
   }
-  public editBuilding() {}
-  public deleteBuilding() {}
+
+  public deleteBuilding() {
+    let dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: "300px",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.buildingService.deleteBuilding(this.building.id);
+      }
+    });
+  }
 }
