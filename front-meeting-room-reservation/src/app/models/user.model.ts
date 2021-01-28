@@ -1,3 +1,4 @@
+import { Meeting } from "./meeting.model";
 export interface User {
   id: number;
   familyname: string;
@@ -5,4 +6,5 @@ export interface User {
   email: string;
   phoneNumber: string;
   password: string;
+  meetings: Meeting[];
 }

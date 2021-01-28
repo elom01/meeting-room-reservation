@@ -4,29 +4,29 @@
       <h3>{{ viewDate | calendarDate: view + 'ViewTitle':locale }}</h3>
     </div>
     <div class="header-calendar-change">
-      <button mat-icon-button class="btn btn-primary" mwlCalendarPreviousView [(view)]="view" [(viewDate)]="viewDate"
+      <button color="primary" mat-icon-button class="btn btn-primary" mwlCalendarPreviousView [(view)]="view" [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         <mat-icon>chevron_left</mat-icon>
       </button>
-      <button mat-icon-button class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate"
+      <button color="primary" mat-icon-button class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         Aujourd'hui
       </button>
-      <button mat-icon-button class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+      <button color="primary" mat-icon-button class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
     <div class="header-calendar-view">
-      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Month)"
+      <button color="primary" mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Month)"
         [class.active]="view === CalendarView.Month">
         Mois
       </button>
-      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Week)"
+      <button color="primary" mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Week)"
         [class.active]="view === CalendarView.Week">
         Semaine
       </button>
-      <button mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Day)"
+      <button color="primary" mat-stroked-button class="btn-calendar-view" (click)="viewChange.emit(CalendarView.Day)"
         [class.active]="view === CalendarView.Day">
         Jour
       </button>

@@ -9,7 +9,7 @@
       <mat-label>Mot de passe</mat-label>
       <input matInput type="password" name="password" formControlName="password" >
     </mat-form-field>
-    <button *ngIf="!isEditForm" type="submit" [disabled]="isLoading | async" mat-raised-button color="accent"
+    <button color="primary" *ngIf="!isEditForm" type="submit" [disabled]="isLoading | async" mat-raised-button color="accent"
       (click)="onLogin()">Se connecter</button>
   </form>
 </mat-card>

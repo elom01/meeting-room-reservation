@@ -1,19 +1,19 @@
-<mat-toolbar>
-  <button mat-icon-button class="title" routerLink="/">
+<mat-toolbar color="primary" class="toolbar-reservation">
+  <button color="link" mat-icon-button class="title" routerLink="/">
     Meeting-Room Reservation
   </button>
   <span class="spacer"></span>
-  <button mat-icon-button class="toolbar-link" routerLink="/building">
+  <button color="link" mat-icon-button class="toolbar-link" routerLink="/building">
     <mat-icon>business</mat-icon> Batiments
   </button>
-  <button mat-icon-button class="toolbar-link" routerLink="/room">
+  <button color="link" mat-icon-button class="toolbar-link" routerLink="/room">
     <mat-icon>meeting_room</mat-icon> Salles
   </button>
   <span class="spacer"></span>
-  <button mat-icon-button class="" routerLink="authService.isAuthenticated() ? '/profil':'#!'" (click)="authService.isAuthenticated() ? null :openSideNav()">
+  <button color="link" mat-icon-button class="" routerLink="authService.isAuthenticated() ? '/profil':'#!'" (click)="authService.isAuthenticated() ? null :openSideNav()">
     <mat-icon>person</mat-icon>
   </button>
-  <button mat-icon-button class="" routerLink="/admin">
+  <button color="link" mat-icon-button class="" routerLink="/admin">
     <mat-icon>settings</mat-icon>
   </button>
 </mat-toolbar>

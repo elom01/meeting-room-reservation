@@ -1,3 +1,6 @@
+import { Meeting } from "./../models/meeting.model";
+import { TimetableService } from "./timetable.service";
+import { Timetable } from "./../models/timetables.model";
 import { AuthentificationService } from "./../authentification.service";
 import {
   ChangeDetectionStrategy,
@@ -5,6 +8,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -23,6 +27,7 @@ import { addDays, addHours, format } from "date-fns";
 import { RoomService } from "../room/room.service";
 import { colors } from "./colors";
 import { EventComponent } from "src/app/event/event.component";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "timetable",
@@ -31,7 +36,8 @@ import { EventComponent } from "src/app/event/event.component";
   templateUrl: "./timetable.component.html",
   styleUrls: ["./timetable.component.scss"],
 })
-export class TimetableComponent implements OnInit {
+export class TimetableComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   public view: CalendarView = CalendarView.Week;
   public viewDate: Date = new Date();
   public viewChange = new EventEmitter<CalendarView>();
@@ -40,7 +46,9 @@ export class TimetableComponent implements OnInit {
   public clickedDate: Date;
   public clickedColumn: number;
   public locale: string = "en";
+  public timetable: Timetable[];
   private newEvent: CalendarEvent;
+  @Input() meetings: Meeting[];
   @ViewChild("sidenav", { static: true }) sidenav: MatSidenav;
   @Input() idRoom;
   public events: CalendarEvent[] = [
@@ -83,10 +91,37 @@ export class TimetableComponent implements OnInit {
     private authService: AuthentificationService,
     private cdr: ChangeDetectorRef,
     private matSnackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private timetableService: TimetableService
   ) {}
 
-  ngOnInit() {}
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  ngOnInit() {
+    this.subscription = this.timetableService
+      .getTimetable()
+      .subscribe((timetable) => {
+        this.timetable = timetable;
+      });
+    if (this.meetings) {
+      this.convertToEvents(this.meetings);
+    }
+  }
+
+  private convertToEvents(meetings: Meeting[]) {
+    let newEvents = [];
+    meetings.forEach((meeting) => {
+      let newEvent: CalendarEvent = {
+        title: "Réservé",
+        start: new Date(meeting.startDate),
+        end: new Date(meeting.endDate),
+      };
+      newEvents.push(newEvent);
+      this.events = newEvents;
+    });
+  }
 
   public eventTimesChanged({
     event,

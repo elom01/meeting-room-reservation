@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Réservation</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Nom</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Adresse</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Ville</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Code Postal</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button color="primary" mat-button [mat-dialog-close]>Non</button>
+  <button color="primary" mat-button [mat-dialog-close] (onClick)="saveBuilding">Ok</button>
+</div>

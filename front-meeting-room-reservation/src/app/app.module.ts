@@ -16,14 +16,20 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   MatButtonModule,
   MatCardModule,
+  MatDatepickerModule,
   MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatNativeDateModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatToolbarModule,
 } from "@angular/material";
+import { MatListModule } from "@angular/material/list";
 import { BuildingRoomsComponent } from "./building/building-rooms/building-rooms.component";
 import { CalendarModule, DateAdapter } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
@@ -32,6 +38,7 @@ import { EventComponent } from "./event/event.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { TimetableComponent } from "./timetable/timetable.component";
+import { BuildingFormComponent } from './building/building-form/building-form.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +56,7 @@ import { TimetableComponent } from "./timetable/timetable.component";
     LoginComponent,
     RegisterComponent,
     TimetableComponent,
+    BuildingFormComponent,
   ],
   entryComponents: [EventComponent],
   imports: [
@@ -67,6 +75,12 @@ import { TimetableComponent } from "./timetable/timetable.component";
     MatDialogModule,
     FormsModule,
     MatSnackBarModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDividerModule,
+    MatSelectModule,
+    MatListModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
