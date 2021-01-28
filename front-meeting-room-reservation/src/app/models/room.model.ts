@@ -7,6 +7,6 @@ export interface MeetingRoom {
   floor: string;
   imageUrl: string;
   building: Building;
-  meetings: Meeting[];
-  meetingRoomTimetables: Timetable[];
+  meetings?: Meeting[];
+  meetingRoomTimetables?: Timetable[];
 }

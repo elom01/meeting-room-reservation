@@ -51,3 +51,21 @@
 .div-add-building {
   padding: 1em;
 }
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-title {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.details-title span {
+  font-size: x-large;
+}
+
+mat-divider {
+  margin: 1em;
+}

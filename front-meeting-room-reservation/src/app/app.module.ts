@@ -38,7 +38,8 @@ import { EventComponent } from "./event/event.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { TimetableComponent } from "./timetable/timetable.component";
-import { BuildingFormComponent } from './building/building-form/building-form.component';
+import { BuildingFormComponent } from "./building/building-form/building-form.component";
+import { RoomFormComponent } from "./room/room-form/room-form.component";
 
 @NgModule({
   declarations: [
@@ -57,8 +58,9 @@ import { BuildingFormComponent } from './building/building-form/building-form.co
     RegisterComponent,
     TimetableComponent,
     BuildingFormComponent,
+    RoomFormComponent,
   ],
-  entryComponents: [EventComponent],
+  entryComponents: [EventComponent, BuildingFormComponent, RoomFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

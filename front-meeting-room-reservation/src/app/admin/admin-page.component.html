@@ -5,14 +5,20 @@
         Ajouter un Bâtiment
       </button>
     </div>
-    <mat-selection-list #buildings>
-      <mat-list-option *ngFor="let building of buildingsList">
+    <mat-nav-list #buildings>
+      <a mat-list-item *ngFor="let building of buildingsList" (click)="clickDetailsBuilding(building)">
        {{building.name}}
-      </mat-list-option>
-    </mat-selection-list>
+      </a>
+    </mat-nav-list>
   </div>
-  <div class="details">
-    <mat-accordion class="accordion-reservation">
+  <div class="details"  *ngIf="building">
+    <div class="details-title">
+      <span>{{building.name}}</span>
+      <button color="primary" mat-icon-button (click)="openDialog(building)"><mat-icon>edit</mat-icon></button>
+      <button color="warn" mat-icon-button (click)="deleteBuilding()"><mat-icon>delete</mat-icon></button>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-accordion class="accordion-reservation" *ngFor="let meetingRoom of meetingRoomsList">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>

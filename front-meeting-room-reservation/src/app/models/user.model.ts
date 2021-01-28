@@ -6,5 +6,5 @@ export interface User {
   email: string;
   phoneNumber: string;
   password: string;
-  meetings: Meeting[];
+  meetings?: Meeting[];
 }

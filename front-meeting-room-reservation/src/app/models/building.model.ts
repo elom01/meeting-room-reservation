@@ -5,5 +5,5 @@ export interface Building {
   address: string;
   city: string;
   zipcode: string;
-  meetingRooms: MeetingRoom[];
+  meetingRooms?: MeetingRoom[];
 }

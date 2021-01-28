@@ -1,0 +1,19 @@
+<h1 mat-dialog-title class="form-title">Salle</h1>
+<div mat-dialog-content class="form-input">
+  <mat-form-field>
+    <mat-label>Nom</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Etage</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Url Image</mat-label>
+    <input matInput type="text">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="form-button">
+  <button color="warn" mat-button [mat-dialog-close]>Annuler</button>
+  <button color="primary" mat-button [mat-dialog-close] (onClick)="saveRoom">Ajouter</button>
+</div>

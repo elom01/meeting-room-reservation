@@ -1,3 +1,4 @@
+import { MeetingRoom } from "./../models/room.model";
 import { Building } from "./../models/building.model";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { BuildingService } from "../building/building.service";
@@ -13,6 +14,8 @@ import { BuildingFormComponent } from "../building/building-form/building-form.c
 export class AdminPageComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   public buildingsList: Building[];
+  public meetingRoomsList: MeetingRoom[];
+  public building: Building;
 
   constructor(
     private buildingService: BuildingService,
@@ -31,14 +34,35 @@ export class AdminPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openDialog(): void {
-    console.log("open");
-    const dialogRef = this.dialog.open(BuildingFormComponent, {
-      width: "300px",
-    });
+  public openDialog(building?: Building): void {
+    let dialogRef;
+    let buildingData = building;
+    if (!buildingData) {
+      let newBuilding: Building = {
+        id: null,
+        name: "",
+        address: "",
+        city: "",
+        zipcode: "",
+      };
 
+      buildingData = newBuilding;
+    }
+    console.log("open");
+    dialogRef = this.dialog.open(BuildingFormComponent, {
+      width: "300px",
+      data: {
+        building: buildingData,
+      },
+    });
     dialogRef.afterClosed().subscribe((result) => {
       console.log("closed");
     });
   }
+
+  public clickDetailsBuilding(building: Building) {
+    this.building = building;
+  }
+  public editBuilding() {}
+  public deleteBuilding() {}
 }
