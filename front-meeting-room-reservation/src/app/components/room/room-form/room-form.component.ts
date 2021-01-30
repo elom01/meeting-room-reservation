@@ -40,7 +40,7 @@ private getRegisterFormData() {
     return newMeetingRoom;
   }
 
-  get meetingRoomLoginControle() {
+  get meetingRoomControle() {
     return this.formMeetingRoom.controls;
   }
 
