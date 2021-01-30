@@ -1,9 +1,9 @@
 import { MeetingRoom } from "./room.model";
 import { User } from "./user.model";
 export interface Meeting {
-  id: number;
+  id?: number;
   startDate: string;
   endDate: string;
-  user: User;
-  meetingRoom: MeetingRoom;
+  user: any;
+  meetingRoom: any;
 }

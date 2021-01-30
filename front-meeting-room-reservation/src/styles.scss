@@ -4,15 +4,9 @@
 
 html,
 body {
-  height: 100%;
-}
-body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-.container-reservation {
-  padding: 1em;
-  background-color: white;
+  height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -34,4 +28,11 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(48, 48, 48);
+}
+
+.red-snackbar {
+  color: red;
+  font-weight: bold;
+  background-color: white;
+  border: 1px solid red;
 }

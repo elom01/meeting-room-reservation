@@ -3,15 +3,15 @@ import { NgModule } from "@angular/core";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { RoomPageComponent } from "./room/room-page.component";
-import { HomePageComponent } from "./home/home-page.component";
-import { BuildingPageComponent } from "./building/building-page.component";
-import { AdminPageComponent } from "./admin/admin-page.component";
-import { ProfilPageComponent } from "./profil/profil-page.component";
-import { RoomDetailsComponent } from "./room/room-details/room-details.component";
-import { BuildingCardComponent } from "./building/building-card/building-card.component";
-import { RoomCardComponent } from "./room/room-card/room-card.component";
-import { HttpClientModule } from "@angular/common/http";
+import { RoomPageComponent } from "./components/room/room-page.component";
+import { HomePageComponent } from "./components/home/home-page.component";
+import { BuildingPageComponent } from "./components/building/building-page.component";
+import { AdminPageComponent } from "./components/admin/admin-page.component";
+import { ProfilPageComponent } from "./components/profil/profil-page.component";
+import { RoomDetailsComponent } from "./components/room-details/room-details.component";
+import { BuildingCardComponent } from "./components/building/building-card/building-card.component";
+import { RoomCardComponent } from "./components/room/room-card/room-card.component";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   MatButtonModule,
@@ -30,17 +30,20 @@ import {
   MatToolbarModule,
 } from "@angular/material";
 import { MatListModule } from "@angular/material/list";
-import { BuildingRoomsComponent } from "./building/building-rooms/building-rooms.component";
+import { BuildingRoomsComponent } from "./components/building-rooms/building-rooms.component";
 import { CalendarModule, DateAdapter } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { EventComponent } from "./event/event.component";
-import { LoginComponent } from "./login/login.component";
-import { RegisterComponent } from "./register/register.component";
-import { TimetableComponent } from "./timetable/timetable.component";
-import { BuildingFormComponent } from "./building/building-form/building-form.component";
-import { RoomFormComponent } from "./room/room-form/room-form.component";
-import { DeleteDialogComponent } from "./delete-dialog/delete-dialog.component";
+import { LoginComponent } from "./components/login/login.component";
+import { RegisterComponent } from "./components/register/register.component";
+import { TimetableComponent } from "./components/timetable/timetable.component";
+import { BuildingFormComponent } from "./components/building/building-form/building-form.component";
+import { RoomFormComponent } from "./components/room/room-form/room-form.component";
+import { DeleteDialogComponent } from "./components/delete-dialog/delete-dialog.component";
+import { JwtModule } from "@auth0/angular-jwt";
+import { JwtInterceptor } from "./helpers/jwt.interceptor";
+import { ErrorInterceptor } from "./helpers/error.interceptor";
+import { EventComponent } from "./components/event/event.component";
 
 @NgModule({
   declarations: [
@@ -95,7 +98,10 @@ import { DeleteDialogComponent } from "./delete-dialog/delete-dialog.component";
       useFactory: adapterFactory,
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

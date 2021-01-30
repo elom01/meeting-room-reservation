@@ -1,0 +1,8 @@
+<mat-card class="building-card">
+  <mat-card-title><mat-icon class="icon-building">business</mat-icon><span class="building-name">{{building.name}}</span></mat-card-title>
+  <mat-card-subtitle>{{building.address}} <br/>{{building.zipcode}} {{building.city}}</mat-card-subtitle>
+  <img mat-card-image src="https://cdn.pixabay.com/photo/2017/04/24/13/37/architecture-2256489_1280.jpg" alt="batiment">
+  <mat-card-actions>
+    <button color="primary" mat-button [routerLink]="['/building', building.id]">Voir les salles</button>
+  </mat-card-actions>
+</mat-card>

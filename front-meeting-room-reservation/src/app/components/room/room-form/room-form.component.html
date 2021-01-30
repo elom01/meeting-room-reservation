@@ -1,0 +1,32 @@
+<h1 mat-dialog-title class="form-title" [formGroup]="formMeetingRoom" >Salle</h1>
+<div mat-dialog-content class="form-input">
+  <mat-form-field class="">
+    <mat-label>Salle</mat-label>
+    <input type="text" matInput value="{{meetingRoom['name']}}" name="name" formControlName="name" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.name.errors }">
+    <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.name.errors" class="invalid-feedback">
+      <div *ngIf="meetingRoomLoginControle.name.errors.required">Veuillez renseigner le nom de la salle</div>
+    </div>
+  </mat-form-field>
+  <mat-panel-description>
+    <mat-form-field class="">
+      <mat-label>Etage</mat-label>
+      <input type="text" matInput value="{{meetingRoom['floor']}}" name="floor" formControlName="floor" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.floor.errors }">
+      <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.floor.errors" class="invalid-feedback">
+        <div *ngIf="meetingRoomLoginControle.floor.errors.required">Veuillez renseigner l'étage de la salle</div>
+      </div>
+    </mat-form-field>
+  </mat-panel-description>
+  <mat-panel-description>
+    <mat-form-field class="">
+      <mat-label>Url Image</mat-label>
+      <input type="text" matInput value="{{meetingRoom['imageUrl']}}" name="imageUrl" formControlName="imageUrl" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.imageUrl.errors }">
+      <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomLoginControle.imageUrl.errors" class="invalid-feedback">
+        <div *ngIf="meetingRoomLoginControle.username.errors.required">Veuillez renseigner l'url de la photo de la salle</div>
+      </div>
+    </mat-form-field>
+  </mat-panel-description>
+</div>
+<div mat-dialog-actions class="form-button">
+  <button color="warn" mat-button [mat-dialog-close]>Annuler</button>
+  <button color="primary" mat-button [mat-dialog-close] (onClick)="saveRoom()">Ajouter</button>
+</div>

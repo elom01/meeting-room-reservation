@@ -1,0 +1,39 @@
+<h1 mat-dialog-title class="form-title">Bâtiment</h1>
+<div mat-dialog-content class="form-input" [formGroup]="formBuilding">
+  <mat-form-field class="input-id">
+    <mat-label>Id</mat-label>
+    <input matInput type="text" name ="id" formControlName="id" [(ngModel)]="data.building.id" readonly>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Nom</mat-label>
+    <input matInput type="text" name ="name" formControlName="name" [(ngModel)]="data.building.name" [ngClass]="{ 'is-invalid': buildingFormHasBeenSubmitted && formBuildingControle.name.errors }">
+  <div *ngIf="buildingFormHasBeenSubmitted && formBuildingControle.name.errors" class="invalid-feedback">
+        <div *ngIf="formBuildingControle.name.errors.required">Veuillez renseigner le nom</div>
+      </div>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Adresse</mat-label>
+    <input matInput type="text" name ="address" formControlName="address" [(ngModel)]="data.building.address" [ngClass]="{ 'is-invalid': buildingFormHasBeenSubmitted && formBuildingControle.address.errors }">
+  <div *ngIf="buildingFormHasBeenSubmitted && formBuildingControle.address.errors" class="invalid-feedback">
+        <div *ngIf="formBuildingControle.address.errors.required">Veuillez renseigner l'adresse</div>
+      </div>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Ville</mat-label>
+    <input matInput type="text" name ="city" formControlName="city" [(ngModel)]="data.building.city" [ngClass]="{ 'is-invalid': buildingFormHasBeenSubmitted && formBuildingControle.city.errors }">
+  <div *ngIf="buildingFormHasBeenSubmitted && formBuildingControle.city.errors" class="invalid-feedback">
+        <div *ngIf="formBuildingControle.city.errors.required">Veuillez renseigner la ville</div>
+      </div>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Code Postal</mat-label>
+    <input matInput type="text" maxlength="10" name ="zipcode" formControlName="zipcode" [(ngModel)]="data.building.zipcode" [ngClass]="{ 'is-invalid': buildingFormHasBeenSubmitted && formBuildingControle.zipcode.errors }">
+  <div *ngIf="buildingFormHasBeenSubmitted && formBuildingControle.zipcode.errors" class="invalid-feedback">
+        <div *ngIf="formBuildingControle.zipcode.errors.required">Veuillez renseigner le code postal</div>
+      </div>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="form-button">
+  <button color="warn" mat-button [mat-dialog-close]>Annuler</button>
+  <button color="primary" mat-button (onClick)="saveBuilding(data.building, data.building.id)">Ajouter</button>
+</div>

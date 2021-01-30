@@ -10,19 +10,25 @@
     <mat-icon>meeting_room</mat-icon> Salles
   </button>
   <span class="spacer"></span>
-  <button color="link" mat-icon-button class="" routerLink="authService.isAuthenticated() ? '/profil':'#!'" (click)="authService.isAuthenticated() ? null :openSideNav()">
+  <button color="link" mat-icon-button class="" [routerLink]="isAuthenticated ? '/profil':''" (click)="isAuthenticated ? null :openSideNav()">
     <mat-icon>person</mat-icon>
+  </button>
+  <button *ngIf="isAuthenticated" color="link" mat-icon-button class="" (click)="publiclogout()">
+    <mat-icon>power_settings_new</mat-icon>
   </button>
   <button color="link" mat-icon-button class="" routerLink="/admin">
     <mat-icon>settings</mat-icon>
   </button>
 </mat-toolbar>
 <div class="container-reservation">
-  <mat-sidenav-container class="body">
+  <mat-sidenav-container>
     <mat-sidenav #sidenav (keydown.escape)="closeSideNav()" class="side-nav" position="end">
-      <register></register>
       <login></login>
+      <mat-divider></mat-divider>
+      <register></register>
     </mat-sidenav>
-  <router-outlet></router-outlet>
+<div class="body">
+    <router-outlet></router-outlet>
+</div>
   </mat-sidenav-container>
 </div>

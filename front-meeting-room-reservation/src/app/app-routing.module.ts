@@ -1,46 +1,46 @@
-import { BuildingRoomsComponent } from './building/building-rooms/building-rooms.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AdminPageComponent } from './admin/admin-page.component';
-import { BuildingPageComponent } from './building/building-page.component';
-import { HomePageComponent } from './home/home-page.component';
-import { ProfilPageComponent } from './profil/profil-page.component';
-import { RoomDetailsComponent } from './room/room-details/room-details.component';
-import { RoomPageComponent } from './room/room-page.component';
+import { BuildingRoomsComponent } from "./components/building-rooms/building-rooms.component";
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { AdminPageComponent } from "./components/admin/admin-page.component";
+import { BuildingPageComponent } from "./components/building/building-page.component";
+import { HomePageComponent } from "./components/home/home-page.component";
+import { ProfilPageComponent } from "./components/profil/profil-page.component";
+import { RoomDetailsComponent } from "./components/room-details/room-details.component";
+import { RoomPageComponent } from "./components/room/room-page.component";
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomePageComponent
+    path: "",
+    component: HomePageComponent,
   },
   {
-    path: 'building',
-    component: BuildingPageComponent
+    path: "building",
+    component: BuildingPageComponent,
   },
   {
-    path: 'building/:id',
-    component: BuildingRoomsComponent
+    path: "building/:id",
+    component: BuildingRoomsComponent,
   },
   {
-    path: 'room',
+    path: "room",
     component: RoomPageComponent,
   },
   {
-    path: 'room/:id',
+    path: "room/:id",
     component: RoomDetailsComponent,
   },
   {
-    path: 'profil',
-    component: ProfilPageComponent
+    path: "profil",
+    component: ProfilPageComponent,
   },
   {
-    path: 'admin',
-    component: AdminPageComponent
-  }
+    path: "admin",
+    component: AdminPageComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,0 +1,26 @@
+.calendar {
+  width: 100vw;
+  height: 100vh;
+}
+
+.calendar-container {
+  height: 75vh;
+  overflow: auto;
+}
+
+.header-calendar-date {
+  display: flex;
+  justify-content: center;
+}
+
+.header-calendar-change {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
+}
+
+.header-calendar-view {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}

@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRoomRepository::class)
@@ -27,6 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * "patch", 
  * "delete"}
  * )
+ *  @ApiFilter(SearchFilter::class, properties={"building.id":"exact"})
  */
 class MeetingRoom
 {

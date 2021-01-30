@@ -1,0 +1,9 @@
+<mat-card class="room-card">
+  <mat-card-title><mat-icon class="icon-room">meeting_room</mat-icon><span class="room-name">{{room.name}}</span></mat-card-title>
+  <mat-card-subtitle>Etage : {{room.floor}}</mat-card-subtitle>
+  <img mat-card-image src="{{room.imageUrl}}"
+    alt="salle de reunion">
+  <mat-card-actions>
+    <button color="primary" mat-button [routerLink]="['/room', room.id]"> Voir les horaires</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,5 +1,15 @@
+.container-reservation {
+  background-color: #ffffff;
+}
+
 .body {
   background-color: #ffffff;
+  height: 100%;
+  padding: 1em;
+}
+.side-nav {
+  height: 100vh;
+  background-color: #673ab74f;
 }
 .spacer {
   flex: 1 1 auto;

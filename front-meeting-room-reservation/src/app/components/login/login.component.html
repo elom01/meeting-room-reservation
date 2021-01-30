@@ -1,0 +1,21 @@
+<mat-card class="form-reservation ">
+  <form class="login" autocomplete="off" [formGroup]="formLogin" novalidate>
+    <h3>Se connecter</h3>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" formControlName="email" [ngClass]="{ 'is-invalid': loginFormHasBeenSubmitted && formLoginControle.email.errors }">
+      <div *ngIf="loginFormHasBeenSubmitted && formLoginControle.email.errors" class="invalid-feedback">
+        <div *ngIf="formLoginControle.email.errors.required">Veuillez saisir votre adresse email</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" name="password" formControlName="password"  [ngClass]="{ 'is-invalid': loginFormHasBeenSubmitted && formLoginControle.password.errors }">
+    </mat-form-field>
+    <div *ngIf="loginFormHasBeenSubmitted && formLoginControle.password.errors" class="invalid-feedback">
+      <div *ngIf="formLoginControle.password.errors.required">Veuillez saisir votre adresse email mot de passe</div>
+    </div>
+    <button color="primary" *ngIf="!isEditForm" type="submit" mat-raised-button
+      (click)="onLogin()">Se connecter</button>
+  </form>
+</mat-card>

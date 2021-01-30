@@ -1,0 +1,14 @@
+<mat-card class="card-section-title">
+  <div class="img-room" [ngStyle]="{ 'background-image': 'url(' + room.imageUrl + ')'}">
+  </div>
+  <div class="details-room">
+    <div class="div-id_room">
+      <input #id_room value="{{room.id}}" readonly>
+    </div>
+    <div class="section-title"><label>Salle : </label><span class="names">{{room.name}}</span></div>
+    <div class="section-subtitle"><label>Bâtiment : </label> <span class="names">{{room.building.name}}</span></div>
+    <div class="section-subtitle">{{room.building.address}}, {{room.building.zipcode}} {{room.building.city}}</div>
+    <div class="section-subtitle"><label>Etage : </label> <span>{{room.floor}}</span></div>
+  </div>
+</mat-card>
+  <timetable [idRoom]=idRoom [meetings]=room.meetings></timetable>

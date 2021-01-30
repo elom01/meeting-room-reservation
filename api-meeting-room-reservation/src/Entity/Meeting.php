@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MeetingRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRepository::class)
@@ -27,6 +29,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * "patch", 
  * "delete"}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"user.id":"exact"})
+ * 
  */
 class Meeting
 {
@@ -53,7 +57,7 @@ class Meeting
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="meetings")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read:meeting", "write:meeting"})
+     * @Groups({"read:meetingroom", "read:meeting", "write:meeting"})
      */
     private UserInterface $user;
 

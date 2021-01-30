@@ -1,0 +1,49 @@
+<mat-card class="form-reservation ">
+  <h3>S'enregister</h3>
+  <form class="register" autocomplete="off" [formGroup]="formRegister">
+    <mat-form-field>
+      <mat-label>Nom</mat-label>
+      <input matInput name="familyname" formControlName="familyname" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.familyname.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez renseigner le nom de famille</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Prénom</mat-label>
+      <input matInput name="firstname" formControlName="firstname" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.firstname.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez renseigner le prenom</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" formControlName="email" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.email.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez renseigner l'adresse email</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Télephone</mat-label>
+      <input matInput name="phoneNumber" formControlName="phoneNumber" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.phoneNumber.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez renseigner le numero de téléphone</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" name="password" formControlName="password" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.password.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez renseigner le mot de passe</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Vérifiez votre mot de passe</mat-label>
+      <input matInput type="password" name="checkPassword" formControlName="checkPassword" [ngClass]="{ 'is-invalid': registerFormHasBeenSubmitted && registerLoginControle.checkPassword.errors }">
+     <div *ngIf="registerFormHasBeenSubmitted && registerLoginControle.username.errors" class="invalid-feedback">
+        <div *ngIf="registerLoginControle.username.errors.required">Veuillez vérifier le mot de passe</div>
+      </div>
+    </mat-form-field>
+    <button color="primary" *ngIf="!isEditForm" type="submit" mat-raised-button
+      (click)="onRegister()">Enregistrer</button>
+  </form>
+</mat-card>
