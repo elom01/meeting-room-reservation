@@ -1,0 +1,20 @@
+<div class="div-reservations">
+  <mat-card class="card-reservation" *ngFor="let meeting of meetingsList">
+    <mat-card-content class="card-content">
+      <p>Salle:<span class="names">{{meeting.meetingRoom.name}}</span></p>
+      <p>Etage :{{meeting.meetingRoom.floor}}</p>
+      <p>Bâtiment : <span class="names">{{meeting.meetingRoom.building.name}}</span></p>
+      <p><label>Adresse :</label> <br /> <span>{{meeting.meetingRoom.building.address}}
+          {{meeting.meetingRoom.building.zipcode}} {{meeting.meetingRoom.building.city}}</span></p>
+      <p>{{meeting.startDate}} - {{meeting.endDate}}</p>
+    </mat-card-content>
+    <mat-card-actions class="div-reservation">
+      <button color="primary" class="button-reservation" mat-button (click)="showCalendar(meeting.meetingRoom.id, meeting.startDate)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button color="warn" class="button-reservation delete" mat-button (click)="deleteMeeting(meeting.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

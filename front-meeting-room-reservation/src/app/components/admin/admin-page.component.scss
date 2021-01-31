@@ -4,6 +4,11 @@
   height: 100%;
 }
 
+.form-detail-room{
+  width: 100%;
+  margin: 0 10px;
+}
+
 .navbar {
   display: flex;
   flex-direction: column;
@@ -33,18 +38,6 @@
   margin: 5px 0;
 }
 
-.timetable {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.action {
-  display: flex;
-  flex-direction: row-reverse;
-}
-
 .room-info {
   display: flex;
   flex-direction: row-reverse;
@@ -62,12 +55,19 @@
 
 .details-title {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
 }
 .details-title span {
+  text-align: center;
   font-size: x-large;
+  width: 100%;
 }
+
+.div-title-btn{
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 
 mat-divider {
   margin: 1em;

@@ -34,29 +34,29 @@ class Building
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read:building"})
+     * @Groups({"read:building", "write:meetingroom", "read:meetingroom", "read:meeting"})
      */
     private $id;
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom","write:building", "write:meetingroom"})
+     * @Groups({"read:building", "read:meetingroom","write:building", "read:meeting"})
      */
     private $name;
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom", "write:building"})
+     * @Groups({"read:building", "read:meetingroom", "write:building", "read:meeting"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:building", "read:meetingroom", "write:building"})
+     * @Groups({"read:building", "read:meetingroom", "write:building", "read:meeting"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=5)
-     * @Groups({"read:building", "read:meetingroom", "write:building"})
+     * @Groups({"read:building", "read:meetingroom", "write:building", "read:meeting"})
      */
     private $zipcode;
 
@@ -130,6 +130,18 @@ class Building
     public function setZipcode(string $zipcode): self
     {
         $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

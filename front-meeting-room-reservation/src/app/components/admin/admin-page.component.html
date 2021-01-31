@@ -1,21 +1,30 @@
 <div class="container-body">
   <div class="navbar">
     <div class="div-add-building">
-      <button color="primary" mat-raised-button (click)="openDialog()">
+      <button color="primary" mat-raised-button (click)="openDialogBuilding()">
         Ajouter un Bâtiment
       </button>
     </div>
     <mat-nav-list #buildings>
       <a mat-list-item *ngFor="let building of buildingsList" (click)="clickDetailsBuilding(building)">
-       {{building.name}}
+        {{building.name}}
       </a>
     </mat-nav-list>
   </div>
-  <div class="details"  *ngIf="building">
+  <div class="details" *ngIf="building">
     <div class="details-title">
       <span>{{building.name}}</span>
-      <button color="primary" mat-icon-button (click)="openDialog(building)"><mat-icon>edit</mat-icon></button>
-      <button color="warn" mat-icon-button (click)="deleteBuilding()"><mat-icon>delete</mat-icon></button>
+      <div class="div-title-btn">
+        <button color="primary" mat-stroked-button (click)="openDialogMeetingRoom(building.id)">
+          Ajouter une salle
+        </button>
+        <button color="primary" mat-icon-button (click)="openDialogBuilding(building)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button color="warn" mat-icon-button (click)="deleteBuilding()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
     <mat-divider></mat-divider>
     <mat-accordion class="accordion-reservation" *ngFor="let meetingRoom of meetingRoomsList">
@@ -23,127 +32,17 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>meeting_room</mat-icon>
-           Salle {{meetingRoom['name']}}
+            Salle {{meetingRoom['name']}}
           </mat-panel-title>
           <mat-panel-description>
             Etage: {{meetingRoom['floor']}}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="room-info">
-          <mat-form-field class="" [formGroup]="formMetingRoom">
-            <mat-label>Salle</mat-label>
-            <input type="text" matInput value="{{meetingRoom['name']}}" name="name" formControlName="name" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.name.errors }">
-            <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.name.errors" class="invalid-feedback">
-              <div *ngIf="meetingRoomControle.name.errors.required">Veuillez renseigner le nom de la salle</div>
-            </div>
-          </mat-form-field>
-          <mat-panel-description>
-            <mat-form-field class="">
-              <mat-label>Etage</mat-label>
-              <input type="text" matInput value="{{meetingRoom['floor']}}" name="floor" formControlName="floor" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.floor.errors }">
-              <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.floor.errors" class="invalid-feedback">
-                <div *ngIf="meetingRoomControle.floor.errors.required">Veuillez renseigner l'étage de la salle</div>
-              </div>
-            </mat-form-field>
-          </mat-panel-description>
-          <mat-panel-description>
-            <mat-form-field class="">
-              <mat-label>Url Image</mat-label>
-              <input type="text" matInput value="{{meetingRoom['imageUrl']}}" name="imageUrl" formControlName="imageUrl" [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.imageUrl.errors }">
-              <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.imageUrl.errors" class="invalid-feedback">
-                <div *ngIf="meetingRoomControle.username.errors.required">Veuillez renseigner l'url de la photo de la salle</div>
-              </div>
-            </mat-form-field>
-          </mat-panel-description>
+        <div>
+          <meeting-room-form [meetingRoom] = "meetingRoom"></meeting-room-form>
         </div>
         <mat-divider></mat-divider>
-        <div class="timetable">
-          <div>
-            <p>Lundi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Lundi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Lundi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Mardi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Mardi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Mardi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Mercredi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Mercredi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Mercredi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Jeudi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Jeudi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Jeudi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Vendredi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Vendredi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Vendredi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Samedi</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Samedi']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Samedi']['end']}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <p>Dimanche</p>
-            <mat-form-field class="">
-              <mat-label>ouverture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Dimanche']['start']}}">
-            </mat-form-field>
-            <mat-form-field class="">
-              <mat-label>fermeture</mat-label>
-              <input type="time" matInput value="{{meetingRoom['Dimanche']['end']}}">
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="action">
-          <button color="primary" class="button-reservation" mat-button>
-            Enregistrer
-          </button>
-          <button color="warn" class="button-reservation delete" mat-button>
-            Supprimer
-          </button>
-        </div>
+        <timetable-admin [meetingRoom] = "meetingRoom"></timetable-admin>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

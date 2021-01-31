@@ -1,3 +1,5 @@
+import { AdminGuard } from './guards/admin.guard';
+import { AuthGuard } from "./guards/auth.guard";
 import { BuildingRoomsComponent } from "./components/building-rooms/building-rooms.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
@@ -32,10 +34,17 @@ const routes: Routes = [
   {
     path: "profil",
     component: ProfilPageComponent,
+    canActivate:[
+      AuthGuard
+    ]
   },
   {
     path: "admin",
     component: AdminPageComponent,
+    canActivate:[
+      AuthGuard,
+      AdminGuard
+    ]
   },
 ];
 

@@ -43,34 +43,4 @@
   border-bottom: 1px solid rgb(177, 175, 175);
 }
 
-.div-reservations {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 1em;
-}
 
-.card-reservation {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: calc(20%);
-}
-
-.div-reservation {
-  display: flex;
-  flex-direction: row;
-  margin: 1em;
-}
-
-.button-reservation {
-  width: 100%;
-}
-
-.card-content {
-  margin-bottom: 0;
-}
-
-.names {
-  text-transform: uppercase;
-}

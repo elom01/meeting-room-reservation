@@ -20,7 +20,15 @@
 }
 
 .header-calendar-view {
-  display: flex;
+  display: none;
   justify-content: center;
   margin-bottom: 1em;
+}
+
+.date-passed{
+  background-color: rgba(128, 128, 128, 0.74);
+}
+
+.date-off{
+  background-color: rgb(255, 183, 183);
 }

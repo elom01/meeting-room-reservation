@@ -1,7 +1,10 @@
-<mat-card class="card-section-title">
+<ng-container *ngIf="buildingDetail">
+<mat-card class="card-section-title" [routerLink]="['/building', buildingDetail.id]">
   <p class="section-title">{{buildingDetail.name}}</p>
   <p class="section-subtitle">{{buildingDetail.address}}, {{buildingDetail.zipcode}} {{buildingDetail.city}}</p>
 </mat-card>
 <div class="rooms">
   <room-card *ngFor="let room of buildingDetail.meetingRooms" [room]="room"></room-card>
 </div>
+</ng-container>
+

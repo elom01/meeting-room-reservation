@@ -1,0 +1,11 @@
+.timetable {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.action {
+  display: flex;
+  flex-direction: row-reverse;
+}

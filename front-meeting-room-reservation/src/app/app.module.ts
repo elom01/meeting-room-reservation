@@ -44,6 +44,10 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { JwtInterceptor } from "./helpers/jwt.interceptor";
 import { ErrorInterceptor } from "./helpers/error.interceptor";
 import { EventComponent } from "./components/event/event.component";
+import { MeetingRoomFormComponent } from './components/admin/meeting-room-form/meeting-room-form.component';
+import { TimetableAdminComponent } from './components/admin/timetable-admin/timetable-admin.component';
+import { UserMeetingComponent } from './components/profil/user-meeting/user-meeting.component';
+import { AddMeetingRoomFormComponent } from './components/admin/add-meeting-room-form/add-meeting-room-form.component';
 
 @NgModule({
   declarations: [
@@ -64,12 +68,17 @@ import { EventComponent } from "./components/event/event.component";
     BuildingFormComponent,
     RoomFormComponent,
     DeleteDialogComponent,
+    MeetingRoomFormComponent,
+    TimetableAdminComponent,
+    UserMeetingComponent,
+    AddMeetingRoomFormComponent,
   ],
   entryComponents: [
     EventComponent,
     BuildingFormComponent,
     RoomFormComponent,
     DeleteDialogComponent,
+    AddMeetingRoomFormComponent,
   ],
   imports: [
     BrowserModule,

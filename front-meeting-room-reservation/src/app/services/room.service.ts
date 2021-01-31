@@ -24,7 +24,7 @@ export class RoomService {
 
   postMeetingRoom(meetingRoomModel: MeetingRoom) {
     return this.http.post(
-      this.baseUrl + this.baseUrl + this.uri,
+      this.baseUrl + this.uri,
       meetingRoomModel,
       {
         headers: this.headers,

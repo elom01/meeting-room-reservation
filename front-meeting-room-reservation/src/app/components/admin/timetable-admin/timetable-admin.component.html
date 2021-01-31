@@ -1,0 +1,84 @@
+<div class="timetable" [formGroup]="formTimetable">
+  <div>
+    <p>Lundi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Lundi.start}}" name="lundiStart" formControlName="lundiStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Lundi.end}}" name="lundiEnd" formControlName="lundiEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Mardi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Mardi.start}}" name="mardiStart" formControlName="mardiStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Mardi.end}}" name="mardiEnd" formControlName="mardiEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Mercredi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Mercredi.start}}" name="mercrediStart" formControlName="mercrediStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Mercredi.end}}" name="mercrediEnd" formControlName="mercrediEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Jeudi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Jeudi.start}}" name="jeudiStart" formControlName="jeudiStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Jeudi.end}}" name="jeudiEnd" formControlName="jeudiEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Vendredi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Vendredi.start}}" name="vendrediStart" formControlName="vendrediStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Vendredi.end}}" name="vendrediEnd" formControlName="vendrediEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Samedi</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Samedi.start}}" name="samediStart" formControlName="samediStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Samedi.end}}" name="samediEnd" formControlName="samediEnd">
+    </mat-form-field>
+  </div>
+  <div>
+    <p>Dimanche</p>
+    <mat-form-field class="">
+      <mat-label>ouverture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Dimanche.start}}" name="dimancheStart" formControlName="dimancheStart">
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>fermeture</mat-label>
+      <input type="time" matInput value="{{meetingRoom.Dimanche.end}}" name="dimancheEnd" formControlName="dimancheEnd">
+    </mat-form-field>
+  </div>
+</div>
+<div class="action">
+  <button color="primary" class="button-reservation" mat-button (click)="saveTimetable()">
+    Enregistrer
+  </button>
+</div>

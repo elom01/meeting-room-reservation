@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   public title = "Meeting-Room Reservation";
   @ViewChild("sidenav", { static: true }) sidenav: MatSidenav;
   public isAuthenticated: boolean = false;
+  public isAdmin:boolean = false;
   constructor(
     public authentificationService: AuthentificationService,
     private router: Router
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.authentificationService.currentUserValue != null) {
       this.isAuthenticated = true;
+      this.isAdmin = this.authentificationService.isAdmin();
     } else {
       this.isAuthenticated = false;
     }

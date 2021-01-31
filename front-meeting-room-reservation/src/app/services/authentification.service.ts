@@ -30,6 +30,9 @@ export class AuthentificationService {
   }
 
   public get currentUserId(): number {
+    if(!this.currentUserSubject.value) {
+      return null;
+    }
     return this.helper.decodeToken(this.currentUserSubject.value.token)["id"];
   }
 
@@ -58,5 +61,9 @@ export class AuthentificationService {
     return this.http.post(this.baseUrl + "users", userModel, {
       headers: this.headers,
     });
+  }
+
+  public isAdmin(){
+    return this.helper.decodeToken(this.currentUserSubject.value.token)['roles'].indexOf("ROLE_ADMIN") !== -1;
   }
 }

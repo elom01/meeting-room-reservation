@@ -4,6 +4,6 @@ export interface Meeting {
   id?: number;
   startDate: string;
   endDate: string;
-  user: any;
-  meetingRoom: any;
+  user?: any;
+  meetingRoom?: any;
 }

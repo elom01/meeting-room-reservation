@@ -4,7 +4,7 @@ namespace App\Controller\API;
 
 use DateTimeZone;
 use DateTimeImmutable;
-use App\Entity\Meeting;
+use App\Entity\Building;
 use Symfony\Component\Security\Core\Security;
 
 class BuildingCreateController
@@ -15,7 +15,7 @@ class BuildingCreateController
     {
     }
 
-    public function __invoke(Meeting $data)
+    public function __invoke(Building $data)
     {
 
         $data->setCreationDate(new DateTimeImmutable("now", new DateTimeZone("Europe/Paris")));

@@ -1,0 +1,31 @@
+<form [formGroup]="formMeetingRoom"  novalidate>
+  <mat-panel-description class="room-info">
+    <h3>Salle de réunion</h3>
+    <mat-form-field class="form-detail-room">
+      <mat-label>Salle</mat-label>
+      <input type="text" matInput name="name" formControlName="name"
+        [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.name.errors }">
+      <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.name.errors" class="invalid-feedback">
+        <div *ngIf="meetingRoomControle.name.errors.required">Veuillez renseigner le nom de la salle</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field class="form-detail-room">
+      <mat-label>Etage</mat-label>
+      <input type="text" matInput name="floor" formControlName="floor"
+        [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.floor.errors }">
+      <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.floor.errors" class="invalid-feedback">
+        <div *ngIf="meetingRoomControle.floor.errors.required">Veuillez renseigner l'étage de la salle</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field class="form-detail-room">
+      <mat-label>Url Image</mat-label>
+      <input type="text" matInput name="imageUrl" formControlName="imageUrl"
+        [ngClass]="{ 'is-invalid': meetingRoomFormHasBeenSubmitted && meetingRoomControle.imageUrl.errors }">
+      <div *ngIf="meetingRoomFormHasBeenSubmitted && meetingRoomControle.imageUrl.errors" class="invalid-feedback">
+        <div *ngIf="meetingRoomControle.username.errors.required">Veuillez renseigner l'url de la photo de la
+          salle</div>
+      </div>
+    </mat-form-field>
+    <button color="primary" class="form-detail-room" mat-button (click)="saveMeetingRoom()">Enregistrer</button>
+  </mat-panel-description>
+</form>

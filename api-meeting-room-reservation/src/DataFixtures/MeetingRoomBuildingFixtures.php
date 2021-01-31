@@ -14,7 +14,7 @@ class MeetingRoomBuildingFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
-
+        $dateNow = date_create();
         $building = [];
         for ($i = 0; $i < 10; $i++) {
             $building[$i] = new Building();
@@ -34,6 +34,7 @@ class MeetingRoomBuildingFixtures extends Fixture
             $building[$i]->setAddress($streetAddress)
                 ->setCity($fakerCity)
                 ->setName($fakerName)
+                ->setCreationDate($dateNow)
                 ->setZipcode(str_replace(" ", "", $fakerZipCode));
             $manager->persist($building[$i]);
         }
@@ -51,6 +52,7 @@ class MeetingRoomBuildingFixtures extends Fixture
             $meetingRoom[$k] = new MeetingRoom();
             $meetingRoom[$k]->setName($faker->colorName)
                 ->setFloor($faker->randomDigitNotNull)
+                ->setCreationDate($dateNow)
                 ->setImageUrl("https://cdn.pixabay.com/photo/2015/05/15/14/22/conference-room-768441_960_720.jpg");
 
             // on récupère un nombre aléatoire de meetingRoom dans un tableau
@@ -68,7 +70,7 @@ class MeetingRoomBuildingFixtures extends Fixture
                 $meetingRoomTimetable[$j]->setOpeningDay($j)
                     ->setOpeningTime($openingTime)
                     ->setClosureTime($closureTime)
-                    ->setUpdateDate($openingTime)
+                    ->setCreationDate($dateNow)
                     ->setMeetingRoom($meetingRoom[$k]);
                 $manager->persist($meetingRoomTimetable[$j]);
             }

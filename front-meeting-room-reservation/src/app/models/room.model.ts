@@ -6,7 +6,7 @@ export interface MeetingRoom {
   name: string;
   floor: string;
   imageUrl: string;
-  building: any;
+  building?: any;
   meetings?: any;
   meetingRoomTimetables?: any;
 }

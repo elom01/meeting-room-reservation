@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit {
       email: this.formLogin.value.email,
       password: this.formLogin.value.password,
     };
-
     return form;
   }
+
   public onLogin() {
     this.loading = true;
     if (!this.formLogin.invalid || !this.loginFormHasBeenSubmitted) {

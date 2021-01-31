@@ -1,4 +1,5 @@
-import { MeetingRoom } from "../../models/room.model";
+import { AddMeetingRoomFormComponent } from './add-meeting-room-form/add-meeting-room-form.component';
+import { MeetingRoom } from './../../models/room.model';
 import { Building } from "../../models/building.model";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { BuildingService } from "../../services/building.service";
@@ -9,6 +10,7 @@ import { DeleteDialogComponent } from "../delete-dialog/delete-dialog.component"
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { User } from "src/app/models/user.model";
 import { AuthentificationService } from "src/app/services/authentification.service";
+import { RoomService } from "src/app/services/room.service";
 
 @Component({
   selector: "app-admin-page",
@@ -20,51 +22,26 @@ export class AdminPageComponent implements OnInit, OnDestroy {
   public buildingsList: Building[];
   public meetingRoomsList: object[] = [];
   public building: Building;
-  public formMetingRoom: FormGroup;
-  public meetingRoomFormHasBeenSubmitted: boolean = false;
-  public isEditForm: boolean;
-  public isLoading = new Subject<boolean>();
 
   constructor(
     private _snackBar: MatSnackBar,
-    private authService: AuthentificationService,
-    private formBuilder: FormBuilder,
     private buildingService: BuildingService,
     private dialog: MatDialog
-    ) {}
+  ) {}
 
   ngOnInit() {
-    this.formMetingRoom = this.formBuilder.group({
-      name: ["", Validators.required],
-      floor: ["", Validators.required],
-      imageUrl: ["", Validators.required],
-    });
-
     this.subscription = this.buildingService
       .getBuildings()
       .subscribe((buildings) => {
         this.buildingsList = buildings;
       });
   }
-private getRegisterFormData() {
-    let newMeetingRoom: MeetingRoom = {
-      name: this.formMetingRoom.value.name,
-      floor: this.formMetingRoom.value.floor,
-      imageUrl: this.formMetingRoom.value.imageUrl,
-      building:{id:0}
-    };
-    return newMeetingRoom;
-  }
-
-  get meetingRoomControle() {
-    return this.formMetingRoom.controls;
-  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  public openDialog(building?: Building): void {
+  public openDialogBuilding(building?: Building): void {
     let dialogRef;
     let buildingData = building;
     if (!buildingData) {
@@ -88,6 +65,14 @@ private getRegisterFormData() {
     dialogRef.afterClosed().subscribe((result) => {
       console.log("closed");
     });
+  }
+
+  public openDialogMeetingRoom(id:number): void {
+    let dialogRef = this.dialog.open(AddMeetingRoomFormComponent, {
+      width: "300px",
+      data: id,
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   public clickDetailsBuilding(building: Building) {
@@ -118,6 +103,7 @@ private getRegisterFormData() {
     this.meetingRoomsList = [];
     meetingRooms.forEach((meetingRoom) => {
       let timetable = {
+        id: meetingRoom.id,
         name: meetingRoom.name,
         floor: meetingRoom.floor,
         imageUrl: meetingRoom.imageUrl,
@@ -169,6 +155,7 @@ private getRegisterFormData() {
     }
     return this.convertToTimeString(openingTime);
   }
+
   private findClosureTime(data: any, day: number) {
     let openDay = data.meetingRoomTimetables.find((tt) => tt.openingDay == day);
     let closureTime = null;

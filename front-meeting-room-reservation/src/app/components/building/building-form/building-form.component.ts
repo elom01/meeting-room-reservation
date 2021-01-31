@@ -1,6 +1,6 @@
 import { BuildingService } from "../../../services/building.service";
 import { Building } from "../../../models/building.model";
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import {
   EventComponent,
@@ -33,17 +33,17 @@ export class BuildingFormComponent implements OnInit {
 
   ngOnInit() {
     this.formBuilding = this.formBuilder.group({
-      name: ["", Validators.required],
-      address: ["", Validators.required],
-      city: ["", Validators.required],
-      zipcode: ["", Validators.required],
-      password: ["", Validators.required],
-      checkPassword: ["", Validators.required],
+      id: [this.data.building.id,null],
+      name: [this.data.building.name, Validators.required],
+      address: [this.data.building.address, Validators.required],
+      city: [this.data.building.city, Validators.required],
+      zipcode: [this.data.building.zipcode, Validators.required],
     });
   }
 
   private getBuildingFormData() {
     let newBuilding: Building = {
+      id:this.formBuilding.value.id,
       name: this.formBuilding.value.name,
       address: this.formBuilding.value.address,
       city: this.formBuilding.value.city,
@@ -56,8 +56,10 @@ export class BuildingFormComponent implements OnInit {
     return this.formBuilding.controls;
   }
 
-  public saveBuilding(building: Building, id?: number) {
-    if (id == null) {
+  public saveBuilding(id?:number) {
+    let building:Building = this.getBuildingFormData();
+    if (!id) {
+      console.log(EventEmitter)
       this.buildingService.postBuilding(building).subscribe((meetings) => {
         this.openSnackBar("");
       });

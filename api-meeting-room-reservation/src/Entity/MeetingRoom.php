@@ -72,7 +72,7 @@ class MeetingRoom
     /**
      * @ORM\ManyToOne(targetEntity=Building::class, inversedBy="meetingRooms")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read:meetingroom", "write:meetingroom"})
+     * @Groups({"read:meetingroom", "read:meeting", "write:meetingroom"})
      */
     private $building;
 

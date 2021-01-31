@@ -1,3 +1,4 @@
+<ng-container *ngIf="ifDataLoaded">
 <mat-card class="">
   <div class="calendar-header">
     <div class="header-calendar-date">
@@ -35,7 +36,7 @@
   <div [ngSwitch]="view" class="calendar-container">
     <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events"
       (columnHeaderClicked)="clickedColumn = $event.isoDayNumber" (dayClicked)="changeDay($event.day.date)"
-      [activeDayIsOpen]="true" (eventClicked)="eventClicked($event)" (beforeViewRender)="beforeMonthViewRender($event)">
+      [activeDayIsOpen]="true" (eventClicked)="eventClicked($event)">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
       (eventClicked)="eventClicked($event)" (dayHeaderClicked)="clickedDate = $event.day.date"
@@ -44,8 +45,9 @@
     </mwl-calendar-week-view>
     <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events"
       (eventClicked)="eventClicked($event)" (dayHeaderClicked)="clickedDate = $event.day.date"
-      (hourSegmentClicked)="clickedDate = $event.date" (beforeViewRender)="beforeDayViewRender($event)"
+      (hourSegmentClicked)="clickedDate = $event.date"
       (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
   </div>
 </mat-card>
+</ng-container>

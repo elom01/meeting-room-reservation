@@ -16,7 +16,7 @@
   <button *ngIf="isAuthenticated" color="link" mat-icon-button class="" (click)="publiclogout()">
     <mat-icon>power_settings_new</mat-icon>
   </button>
-  <button color="link" mat-icon-button class="" routerLink="/admin">
+  <button color="link" mat-icon-button class="" routerLink="/admin" *ngIf="isAdmin">
     <mat-icon>settings</mat-icon>
   </button>
 </mat-toolbar>

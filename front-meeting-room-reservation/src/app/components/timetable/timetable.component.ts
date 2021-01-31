@@ -29,10 +29,11 @@ import { RoomService } from "../../services/room.service";
 import { colors } from "./colors";
 import { EventComponent } from "../event/event.component";
 import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "timetable",
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: "./timetable.component.html",
   styleUrls: ["./timetable.component.scss"],
@@ -40,7 +41,7 @@ import { Subscription } from "rxjs";
 export class TimetableComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   public view: CalendarView = CalendarView.Week;
-  public isAuthenticated: boolean;
+  public isAuthenticated: boolean= false;
   public viewDate: Date = new Date();
   public viewChange = new EventEmitter<CalendarView>();
   public viewDateChange = new EventEmitter<Date>();
@@ -50,10 +51,13 @@ export class TimetableComponent implements OnInit, OnDestroy {
   public locale: string = "en";
   public timetable: Timetable[];
   private newEvent: CalendarEvent;
+  public  currentMeetingDate: string;
+  public ifDataLoaded:boolean = false;
+  public idMeeting:number;
   @Input() meetings: Meeting[];
   @ViewChild("sidenav", { static: true }) sidenav: MatSidenav;
   @Input() idRoom;
-  public oldEvents: CalendarEvent[];
+  public oldEvents: CalendarEvent[] = [];
   public events: CalendarEvent[] = [];
   private resizableForUser: object = {
     beforeStart: true, // this allows you to configure the sides the event is resizable from
@@ -67,15 +71,15 @@ export class TimetableComponent implements OnInit, OnDestroy {
       },
     },
     {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      label: '<i>X</i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        console.log("Event deleted", event);
+          this.deleteMeetings(event);
       },
     },
   ];
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private meetingService: MeetingService,
     private cdr: ChangeDetectorRef,
     private matSnackBar: MatSnackBar,
@@ -89,26 +93,34 @@ export class TimetableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.authentificationService.currentUserValue != null) {
-      this.isAuthenticated = true;
-    } else {
-      this.isAuthenticated = false;
-    }
     this.subscription = this.timetableService
       .getTimetable()
       .subscribe((timetable) => {
         this.timetable = timetable;
+        this.ifDataLoaded = true;
       });
     if (this.meetings) {
       this.convertToEvents(this.meetings);
     }
+
+    if (this.authentificationService.currentUserValue != null) {
+      this.isAuthenticated = true;
+    }
+
+    this.meetingService.currentMeetingDateObservable.subscribe((date)=>{
+      this.currentMeetingDate = date;
+      if(date != ""){
+        this.viewDate = new Date(date);
+      }
+    });
   }
 
   private convertToEvents(meetings: Meeting[]) {
     let newEvents = [];
     meetings.forEach((meeting) => {
       let newEvent: CalendarEvent = {
-        title: "Réservé",
+        id:meeting.id,
+        title: "Réservée",
         start: new Date(meeting.startDate),
         end: new Date(meeting.endDate),
       };
@@ -131,8 +143,23 @@ export class TimetableComponent implements OnInit, OnDestroy {
   }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
+    this.newEvent = event;
+     let valideDate = this.controleDate(event);
+      if (!valideDate.valide) {
+        this.showSnackbar(valideDate.error, null, 5000);
+        return;
+      }
+
+      let newMeeting: Meeting = {
+        startDate: event.start.toString(),
+        endDate: event.end.toString(),
+      };
+      if (event.id){
+        this.meetingService.updateMeeting(Number(event.id), newMeeting);
+      }
     this.refresh();
   }
+
 
   public eventClicked({ event }: { event: CalendarEvent }): void {
     if(event.start > new Date() && this.authentificationService.currentUserValue){// et si c'est l'evenement de l'utilisateur
@@ -142,48 +169,43 @@ export class TimetableComponent implements OnInit, OnDestroy {
     }
 
   }
+
   public changeDay(date: Date) {
     this.viewDate = date;
     this.view = CalendarView.Day;
-  }
-
-  public beforeMonthViewRender(
-    renderEvent: CalendarMonthViewBeforeRenderEvent
-  ): void {
-    renderEvent.body.forEach((day) => {
-      const dayOfMonth = day.date.getDate();
-      if (dayOfMonth > 5 && dayOfMonth < 10 && day.inMonth) {
-        day.cssClass = "bg-red";
-      }
-    });
   }
 
   public beforeWeekViewRender(renderEvent: CalendarWeekViewBeforeRenderEvent) {
     renderEvent.hourColumns.forEach((hourColumn) => {
       hourColumn.hours.forEach((hour) => {
         hour.segments.forEach((segment) => {
+          let dateNow:Date = new Date();
           if (
-            segment.date.getHours() >= 2 &&
-            segment.date.getHours() <= 5 &&
-            segment.date.getDay() === 2
+            segment.date <  dateNow
           ) {
-            segment.cssClass = "bg-red";
+            segment.cssClass = "date-passed";
           }
         });
       });
     });
-  }
-
-  public beforeDayViewRender(renderEvent: CalendarDayViewBeforeRenderEvent) {
-    renderEvent.hourColumns.forEach((hourColumn) => {
+    this.timetable.forEach(day => {
+      renderEvent.hourColumns.forEach((hourColumn) => {
       hourColumn.hours.forEach((hour) => {
         hour.segments.forEach((segment) => {
-          if (segment.date.getHours() >= 2 && segment.date.getHours() <= 5) {
-            segment.cssClass = "bg-red";
+          let openingHour: Date = new Date(day.openingTime);
+          let closureHour: Date = new Date(day.closureTime);
+          if (
+              Number(day.openingDay) == segment.date.getDay() &&
+            segment.date.getHours() <  openingHour.getHours()||
+            segment.date.getHours() >  closureHour.getHours()
+          ) {
+            segment.cssClass = "date-off";
           }
         });
       });
     });
+    });
+
   }
 
   public createMeeting() {
@@ -194,7 +216,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
 
   private getMeeetingForm() {
     let meeting: Meeting = {
-      meetingRoom: {id:this.idRoom.nativeElement.value},
+      meetingRoom: {id:Number(this.activatedRoute.snapshot.paramMap.get("id"))},
       startDate: this.newEvent.start.toISOString(),
       endDate: this.newEvent.end.toISOString(),
       user: {id:this.authentificationService.currentUserId},
@@ -213,7 +235,6 @@ export class TimetableComponent implements OnInit, OnDestroy {
       return;
     } else {
       this.newEvent = {
-        id: this.events.length,
         title: "Réservation",
         start: date,
         end: addHours(date, 1), // an end date is always required for resizable events to work
@@ -230,15 +251,12 @@ export class TimetableComponent implements OnInit, OnDestroy {
             label: "<span>X</span>",
             onClick: ({ event }: { event: CalendarEvent }): void => {
               this.events = this.events.filter((iEvent) => iEvent !== event);
-              console.log("Event deleted", event);
             },
           },
         ],
       };
       let valideDate = this.controleDate(this.newEvent);
-      if (valideDate.valide) {
-        this.refresh();
-      } else {
+      if (!valideDate.valide) {
         this.showSnackbar(valideDate.error, null, 5000);
         return;
       }
@@ -270,21 +288,17 @@ export class TimetableComponent implements OnInit, OnDestroy {
         this.newEvent.end = newEnd;
         let valideDate = this.controleDate(this.newEvent);
         if (valideDate.valide) {
-          //if (){
-          //this.updateMeeting(this.newEvent);
-        //}else{
+
           this.createMeeting();
-        //}
+
           this.oldEvents = this.events;
           this.refresh();
         } else {
           this.showSnackbar(valideDate.error, null, 5000);
+          this.deleteMeetings(this.newEvent);
+          this.refresh();
           return;
         }
-        // if (){
-        //   return;
-        // }
-        this.deleteMeetings(this.newEvent);
       }
     });
   }
@@ -308,6 +322,22 @@ export class TimetableComponent implements OnInit, OnDestroy {
       msgError =
         "La date de début de reservation ne peut pas être supérieure à la date de fin";
     }
+
+    this.timetable.forEach(day => {
+      let openingHour: Date = new Date(day.openingTime);
+      let closureHour: Date = new Date(day.closureTime);
+      if (
+        Number(day.openingDay) == eventAdded.start.getDay() &&
+          (eventAdded.start.getHours() < openingHour.getHours() ||
+        eventAdded.end.getHours() > closureHour.getHours())
+      ) {
+        valideDate = false;
+        msgError =
+          "La salle est fermée aux horaires sélectionnés";
+      }
+
+    });
+
     this.oldEvents.forEach((event) => {
       if (
         (eventAdded.start >= event.start && eventAdded.end <= event.end) ||
@@ -315,7 +345,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
         (eventAdded.start <= event.start &&
           eventAdded.end <= event.end &&
           eventAdded.end >= event.start) ||
-        (eventAdded.start >= event.start && this.newEvent.start <= event.end)
+        (eventAdded.start >= event.start && eventAdded.start <= event.end)
       ) {
         valideDate = false;
         msgError =
@@ -340,8 +370,11 @@ export class TimetableComponent implements OnInit, OnDestroy {
   }
 
   public deleteMeetings(event:CalendarEvent) {
+    console.log(event)
+    if (event.id) {
+      this.meetingService.deleteMeeting(Number(event.id));
+    }
     this.events = this.events.filter((iEvent) => iEvent !== event);
-    //this.meetingService.deleteMeeting();
   }
 
   private refresh() {
