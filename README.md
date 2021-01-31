@@ -1,10 +1,11 @@
 # meeting-room-reservation
 
 Prérequis:
-- installer php
+- installer PHP 7.4.9
 - installer Symfony
 - installer node
 - installer composer
+
 
 Initialisation de l'API (dossier : api-meeting-room-reservation)
 
@@ -16,6 +17,8 @@ Commandes:
 - php bin/console make:migration
 - php bin/console doctrine:migration:migrate
 - php bin/console doctrine:fixtures:load
+- symfony server:ca:install
+- php bin/console cache:clear 
 - symfony serve
 
 Initialisation du Front Angular (dossier : front-meeting-room-reservation)
