@@ -67,7 +67,7 @@ export class AdminPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openDialogMeetingRoom(id:number): void {
+  public openDialogMeetingRoom(id: number): void {
     let dialogRef = this.dialog.open(AddMeetingRoomFormComponent, {
       width: "300px",
       data: id,
@@ -108,32 +108,39 @@ export class AdminPageComponent implements OnInit, OnDestroy {
         floor: meetingRoom.floor,
         imageUrl: meetingRoom.imageUrl,
         Lundi: {
-          start: this.findOpeningTime(meetingRoom, 0),
-          end: this.findClosureTime(meetingRoom, 0),
-        },
-        Mardi: {
+          id: this.findIdDay(meetingRoom, 1),
           start: this.findOpeningTime(meetingRoom, 1),
           end: this.findClosureTime(meetingRoom, 1),
         },
-        Mercredi: {
+        Mardi: {
+          id: this.findIdDay(meetingRoom, 2),
           start: this.findOpeningTime(meetingRoom, 2),
           end: this.findClosureTime(meetingRoom, 2),
         },
-        Jeudi: {
+        Mercredi: {
+          id: this.findIdDay(meetingRoom, 3),
           start: this.findOpeningTime(meetingRoom, 3),
           end: this.findClosureTime(meetingRoom, 3),
         },
-        Vendredi: {
+        Jeudi: {
+          id: this.findIdDay(meetingRoom, 4),
           start: this.findOpeningTime(meetingRoom, 4),
           end: this.findClosureTime(meetingRoom, 4),
         },
-        Samedi: {
+        Vendredi: {
+          id: this.findIdDay(meetingRoom, 5),
           start: this.findOpeningTime(meetingRoom, 5),
           end: this.findClosureTime(meetingRoom, 5),
         },
-        Dimanche: {
+        Samedi: {
+          id: this.findIdDay(meetingRoom, 6),
           start: this.findOpeningTime(meetingRoom, 6),
           end: this.findClosureTime(meetingRoom, 6),
+        },
+        Dimanche: {
+          id: this.findIdDay(meetingRoom, 0),
+          start: this.findOpeningTime(meetingRoom, 0),
+          end: this.findClosureTime(meetingRoom, 0),
         },
       };
       this.meetingRoomsList.push(timetable);
@@ -163,5 +170,14 @@ export class AdminPageComponent implements OnInit, OnDestroy {
       closureTime = openDay.closureTime;
     }
     return this.convertToTimeString(closureTime);
+  }
+
+  private findIdDay(data: any, day: number) {
+    let openDay = data.meetingRoomTimetables.find((tt) => tt.openingDay == day);
+    let id = null;
+    if (openDay) {
+      id = openDay.id;
+    }
+    return id;
   }
 }

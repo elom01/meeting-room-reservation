@@ -33,27 +33,33 @@ export class TimetableAdminComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      let lundiId = this.meetingRoom.id;
-      let lundiStart = this.meetingRoom.Lundi.start;
-      let lundiEnd = this.meetingRoom.Lundi.end;
-      let mardiId = this.meetingRoom.id;
-      let mardiStart = this.meetingRoom.Mardi.start;
-      let mardiEnd = this.meetingRoom.Mardi.end;
+      let lundiId = this.meetingRoom.Lundi.id;
+      let lundiStart = this.meetingRoom.Lundi.start ? String(this.meetingRoom.Lundi.start) : "00:00";
+      let lundiEnd = this.meetingRoom.Lundi.end ? String(this.meetingRoom.Lundi.end) : "00:00";
+
+      let mardiId = this.meetingRoom.Mardi.id;
+      let mardiStart = this.meetingRoom.Mardi.start ? String(this.meetingRoom.Mardi.start) : "00:00";
+      let mardiEnd = this.meetingRoom.Mardi.end ? String(this.meetingRoom.Mardi.end) : "00:00";
+
       let mercrediId = this.meetingRoom.Mercredi.id;
-      let mercrediStart = this.meetingRoom.start;
-      let mercrediEnd = this.meetingRoom.Mercredi.end;
-      let jeudiId = this.meetingRoom.id;
-      let jeudiStart = this.meetingRoom.Jeudi.start;
-      let jeudiEnd = this.meetingRoom.Jeudi.end;
-      let vendrediId = this.meetingRoom.id;
-      let vendrediStart = this.meetingRoom.Vendredi.start;
-      let vendrediEnd = this.meetingRoom.Vendredi.end;
-      let samediId = this.meetingRoom.id;
-      let samediStart = this.meetingRoom.Samedi.start;
-      let samediEnd = this.meetingRoom.Samedi.end;
-      let dimancheId = this.meetingRoom.id;
-      let dimancheStart = this.meetingRoom.Dimanche.start;
-      let dimancheEnd = this.meetingRoom.Dimanche.end;
+      let mercrediStart = this.meetingRoom.Mercredi.start ? String(this.meetingRoom.Mercredi.start) : "00:00";
+      let mercrediEnd = this.meetingRoom.Mercredi.end ? String(this.meetingRoom.Mercredi.end) : "00:00";
+
+      let jeudiId = this.meetingRoom.Jeudi.id;
+      let jeudiStart = this.meetingRoom.Jeudi.start ? String(this.meetingRoom.Jeudi.start) : "00:00";
+      let jeudiEnd = this.meetingRoom.Jeudi.end ? String(this.meetingRoom.Jeudi.end) : "00:00";
+
+      let vendrediId = this.meetingRoom.Vendredi.id;
+      let vendrediStart = this.meetingRoom.Vendredi.start ? String(this.meetingRoom.Vendredi.start) : "00:00";
+      let vendrediEnd = this.meetingRoom.Vendredi.end ? String(this.meetingRoom.Vendredi.end) : "00:00";
+
+      let samediId = this.meetingRoom.Samedi.id;
+      let samediStart = this.meetingRoom.Samedi.start ? String(this.meetingRoom.Samedi.start) : "00:00";
+      let samediEnd = this.meetingRoom.Samedi.end ? String(this.meetingRoom.Samedi.end) : "00:00";
+
+      let dimancheId = this.meetingRoom.Dimanche.id;
+      let dimancheStart = this.meetingRoom.Dimanche.start ? String(this.meetingRoom.Dimanche.start) : "00:00";
+      let dimancheEnd = this.meetingRoom.Dimanche.end ? String(this.meetingRoom.Dimanche.end) : "00:00";
 
     this.formTimetable = this.formBuilder.group({
       lundiId: [lundiId, null],
@@ -86,47 +92,65 @@ export class TimetableAdminComponent implements OnInit {
 
   private getTimetableData() {
 
-    this.dimanche["id"] =this.formTimetable["dimancheId"];
-    this.dimanche["openingDay"] = "0";
-    this.dimanche["meetingRoom"] = {id:this.meetingRoom.id};
-    this.dimanche["openingTime"] = this.formTimetable["dimancheStart"];
-    this.dimanche["closureTime"] = this.formTimetable["dimancheEnd"];
+    this.dimanche = {
+      id :this.formTimetable.get("dimancheId").value,
+      openingDay : 0,
+      meetingRoom : {id:this.meetingRoom.id},
+      openingTime : this.formTimetable.get("dimancheStart").value? this.formTimetable.get("dimancheStart").value : "00:00",
+      closureTime : this.formTimetable.get("dimancheEnd").value ? this.formTimetable.get("dimancheEnd").value : "00:00"
+    }
 
-    this.lundi["id"] =this.formTimetable["lundiId"];
-    this.lundi["openingDay"] = "1";
-    this.lundi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.lundi["openingTime"] = this.formTimetable["lundiStart"];
-    this.lundi["closureTime"] = this.formTimetable["lundiEnd"];
+    this.lundi = {
+      id: this.formTimetable.get("lundiId").value,
+      openingDay: 1,
+      meetingRoom: { id: this.meetingRoom.id },
+      openingTime: this.formTimetable.get("lundiStart").value
+        ? this.formTimetable.get("dimancheEnd").value
+        : "00:00",
+      closureTime: this.formTimetable.get("lundiEnd").value
+        ? this.formTimetable.get("dimancheEnd").value
+        : "00:00",
+    };
 
-    this.mardi["id"] = this.formTimetable["mardiId"];
-    this.mardi["openingDay"] = "2";
-    this.mardi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.mardi["openingTime"] = this.formTimetable["mardiStart"];
-    this.mardi["closureTime"] = this.formTimetable["mardiEnd"];
+    this.mardi={
+      id : this.formTimetable.get("mardiId").value,
+      openingDay : 2,
+      meetingRoom : { id: this.meetingRoom.id },
+      openingTime : this.formTimetable.get("mardiStart").value,
+      closureTime : this.formTimetable.get("mardiEnd").value
+    }
 
-    this.mercredi["id"] =this.formTimetable["mercrediId"];
-    this.mercredi["openingDay"] = "3";
-    this.mercredi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.mercredi["openingTime"] = this.formTimetable["mercrediStart"];
-    this.mercredi["closureTime"] = this.formTimetable["mercrediEnd"];
+    this.mercredi={
+      id :this.formTimetable.get("mercrediId").value,
+      openingDay : 3,
+      meetingRoom : { id: this.meetingRoom.id },
+      openingTime : this.formTimetable.get("mercrediStart").value,
+      closureTime : this.formTimetable.get("mercrediEnd").value
+    }
 
-    this.jeudi["id"] =this.formTimetable["jeudiId"];
-    this.jeudi["openingDay"] = "4";
-    this.jeudi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.jeudi["openingTime"] = this.formTimetable["jeudiStart"];
-    this.jeudi["closureTime"] = this.formTimetable["jeudiEnd"];
+    this.jeudi = {
+      id: this.formTimetable.get("jeudiId").value,
+      openingDay: 4,
+      meetingRoom: { id: this.meetingRoom.id },
+      openingTime: this.formTimetable.get("jeudiStart").value,
+      closureTime: this.formTimetable.get("jeudiEnd").value,
+    };
 
-    this.vendredi["id"] =this.formTimetable["vendrediId"];
-    this.vendredi["openingDay"] = "5";
-    this.vendredi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.vendredi["openingTime"] = this.formTimetable["vendrediStart"];
-    this.vendredi["closureTime"] = this.formTimetable["vendrediEnd"];
+    this.vendredi={
+      id :this.formTimetable.get("vendrediId").value,
+      openingDay : 5,
+      meetingRoom : { id: this.meetingRoom.id },
+      openingTime : this.formTimetable.get("vendrediStart").value,
+      closureTime : this.formTimetable.get("vendrediEnd").value
+    }
 
-    this.samedi["id"] =this.formTimetable["samediId"];
-    this.samedi["openingDay"] = "6";
-    this.samedi["meetingRoom"] = { id: this.meetingRoom.id };
-    this.samedi["openingTime"] = this.formTimetable["samediStart"];
-    this.samedi["closureTime"] = this.formTimetable["samediEnd"];
+    this.samedi={
+      id :this.formTimetable.get("samediId").value,
+      openingDay : 6,
+      meetingRoom : { id: this.meetingRoom.id },
+      openingTime : this.formTimetable.get("samediStart").value,
+      closureTime : this.formTimetable.get("samediEnd").value
+    }
 
     let newTimetables: Timetable[] = [
       this.dimanche,
@@ -143,6 +167,7 @@ export class TimetableAdminComponent implements OnInit {
 
   public saveTimetable() {
     let timetable: Timetable[] = this.getTimetableData();
-    this.timeTable.postTimetable(timetable);
+    console.log(timetable);
+    this.timeTable.addTimetables(timetable);
   }
 }

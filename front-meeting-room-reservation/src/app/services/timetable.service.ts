@@ -20,19 +20,36 @@ export class TimetableService {
     });
   }
 
-  public postTimetable(timetableModel: Timetable[]) {
-    timetableModel.forEach((element) => {
-      if (element.id != null) {
-        this.deleteTimeTable(element.id);
+  public addTimetables(timetableList: Timetable[]) {
+    timetableList.forEach((timetable) => {
+      console.log(timetable);
+      if (timetable.id != null) {
+        this.deleteTimeTable(
+          timetable.id
+        ).subscribe((data) => {
+          timetable.id = null;
+          this.postTimetable(timetable).subscribe((meeting) => {});
+        });
+      } else {
+        this.postTimetable(timetable).subscribe((meeting) => {});
       }
-      this.http.post(this.baseUrl + this.uri, element, {
-        headers: this.headers,
-      });
     });
   }
 
-  public deleteTimeTable(id: number) {
-    this.http.delete(this.baseUrl + this.uri + "/" + id, {
+  private postTimetable(timetable: Timetable) {
+    return this.http.post(this.baseUrl + this.uri, timetable, {
+      headers: this.headers,
+    });
+  }
+
+  private updateTimeTable(id: number, timetable:Timetable) {
+    return this.http.put(this.baseUrl + this.uri + "/" + id, {
+      headers: this.headers,
+    });
+  }
+
+  private deleteTimeTable(id: number) {
+    return this.http.delete(this.baseUrl + this.uri + "/" + id, {
       headers: this.headers,
     });
   }

@@ -3,6 +3,6 @@ export interface Timetable {
   id?: number;
   openingTime: string;
   closureTime: string;
-  openingDay: string;
-  room: any;
+  openingDay: number;
+  meetingRoom: any;
 }

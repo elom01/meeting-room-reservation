@@ -34,7 +34,7 @@ export class MeetingService {
     });
   }
 
-  updateMeeting(id: number, meeting: Meeting) {
+  updateMeeting(id: number, meeting: any) {
     return this.http.put<Meeting>(this.baseUrl + this.uri + "/" + id, meeting, {
       headers: this.headers,
     });

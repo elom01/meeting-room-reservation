@@ -41,7 +41,7 @@ import { ActivatedRoute } from "@angular/router";
 export class TimetableComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   public view: CalendarView = CalendarView.Week;
-  public isAuthenticated: boolean= false;
+  public isAuthenticated: boolean = false;
   public viewDate: Date = new Date();
   public viewChange = new EventEmitter<CalendarView>();
   public viewDateChange = new EventEmitter<Date>();
@@ -51,9 +51,9 @@ export class TimetableComponent implements OnInit, OnDestroy {
   public locale: string = "en";
   public timetable: Timetable[];
   private newEvent: CalendarEvent;
-  public  currentMeetingDate: string;
-  public ifDataLoaded:boolean = false;
-  public idMeeting:number;
+  public currentMeetingDate: string;
+  public ifDataLoaded: boolean = false;
+  public idMeeting: number;
   @Input() meetings: Meeting[];
   @ViewChild("sidenav", { static: true }) sidenav: MatSidenav;
   @Input() idRoom;
@@ -71,9 +71,9 @@ export class TimetableComponent implements OnInit, OnDestroy {
       },
     },
     {
-      label: '<i>X</i>',
+      label: "<i>X</i>",
       onClick: ({ event }: { event: CalendarEvent }): void => {
-          this.deleteMeetings(event);
+        this.deleteMeeting(event);
       },
     },
   ];
@@ -107,9 +107,9 @@ export class TimetableComponent implements OnInit, OnDestroy {
       this.isAuthenticated = true;
     }
 
-    this.meetingService.currentMeetingDateObservable.subscribe((date)=>{
+    this.meetingService.currentMeetingDateObservable.subscribe((date) => {
       this.currentMeetingDate = date;
-      if(date != ""){
+      if (date != "") {
         this.viewDate = new Date(date);
       }
     });
@@ -119,12 +119,12 @@ export class TimetableComponent implements OnInit, OnDestroy {
     let newEvents = [];
     meetings.forEach((meeting) => {
       let newEvent: CalendarEvent = {
-        id:meeting.id,
+        id: meeting.id,
         title: "Réservée",
         start: new Date(meeting.startDate),
         end: new Date(meeting.endDate),
       };
-      if (this.authentificationService.currentUserId == meeting.user.id){
+      if (this.authentificationService.currentUserId == meeting.user.id) {
         newEvent.color = colors.green;
         newEvent.resizable = this.resizableForUser;
         newEvent.actions = this.actionForUser;
@@ -143,31 +143,30 @@ export class TimetableComponent implements OnInit, OnDestroy {
   }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
+    let valideDate = this.controleDate(event);
+    if (!valideDate.valide) {
+      this.showErrorSnackbar(valideDate.error, 5000);
+      this.refresh();
+      return;
+    }
     this.newEvent = event;
-     let valideDate = this.controleDate(event);
-      if (!valideDate.valide) {
-        this.showSnackbar(valideDate.error, null, 5000);
-        return;
-      }
 
-      let newMeeting: Meeting = {
-        startDate: event.start.toString(),
-        endDate: event.end.toString(),
-      };
-      if (event.id){
-        this.meetingService.updateMeeting(Number(event.id), newMeeting);
-      }
+    if (event.id) {
+      this.updateMeeting(Number(event.id));
+    }
     this.refresh();
   }
 
-
   public eventClicked({ event }: { event: CalendarEvent }): void {
-    if(event.start > new Date() && this.authentificationService.currentUserValue){// et si c'est l'evenement de l'utilisateur
+    if (
+      event.start > new Date() &&
+      this.authentificationService.currentUserValue
+    ) {
+      // et si c'est l'evenement de l'utilisateur
       console.log("Event clicked", event);
       this.newEvent = event;
       this.openDialog();
     }
-
   }
 
   public changeDay(date: Date) {
@@ -179,55 +178,35 @@ export class TimetableComponent implements OnInit, OnDestroy {
     renderEvent.hourColumns.forEach((hourColumn) => {
       hourColumn.hours.forEach((hour) => {
         hour.segments.forEach((segment) => {
-          let dateNow:Date = new Date();
-          if (
-            segment.date <  dateNow
-          ) {
+          let dateNow: Date = new Date();
+          if (segment.date < dateNow) {
             segment.cssClass = "date-passed";
           }
         });
       });
     });
-    this.timetable.forEach(day => {
+    this.timetable.forEach((day) => {
       renderEvent.hourColumns.forEach((hourColumn) => {
-      hourColumn.hours.forEach((hour) => {
-        hour.segments.forEach((segment) => {
-          let openingHour: Date = new Date(day.openingTime);
-          let closureHour: Date = new Date(day.closureTime);
-          if (
-              Number(day.openingDay) == segment.date.getDay() &&
-            segment.date.getHours() <  openingHour.getHours()||
-            segment.date.getHours() >  closureHour.getHours()
-          ) {
-            segment.cssClass = "date-off";
-          }
+        hourColumn.hours.forEach((hour) => {
+          hour.segments.forEach((segment) => {
+            let openingHour: Date = new Date(day.openingTime);
+            let closureHour: Date = new Date(day.closureTime);
+            if (
+              (Number(day.openingDay) == segment.date.getDay() &&
+                segment.date.getHours() < openingHour.getHours()) ||
+              segment.date.getHours() > closureHour.getHours()
+            ) {
+              segment.cssClass = "date-off";
+            }
+          });
         });
       });
     });
-    });
-
-  }
-
-  public createMeeting() {
-    this.meetingService
-      .postMeeting(this.getMeeetingForm())
-      .subscribe((meeting) => {});
-  }
-
-  private getMeeetingForm() {
-    let meeting: Meeting = {
-      meetingRoom: {id:Number(this.activatedRoute.snapshot.paramMap.get("id"))},
-      startDate: this.newEvent.start.toISOString(),
-      endDate: this.newEvent.end.toISOString(),
-      user: {id:this.authentificationService.currentUserId},
-    };
-
-    return meeting;
   }
 
   public addEvent(date): void {
     if (!this.isAuthenticated) {
-      this.showSnackbar(
+      this.showErrorSnackbar(
         "Vous n'êtes pas connecté(e). Veuillez vous connecter ou vous inscrire",
         null,
         5000
@@ -257,7 +236,8 @@ export class TimetableComponent implements OnInit, OnDestroy {
       };
       let valideDate = this.controleDate(this.newEvent);
       if (!valideDate.valide) {
-        this.showSnackbar(valideDate.error, null, 5000);
+        this.showErrorSnackbar(valideDate.error, null, 5000);
+        this.refresh();
         return;
       }
       this.events = [...this.events, this.newEvent];
@@ -288,14 +268,13 @@ export class TimetableComponent implements OnInit, OnDestroy {
         this.newEvent.end = newEnd;
         let valideDate = this.controleDate(this.newEvent);
         if (valideDate.valide) {
-
           this.createMeeting();
 
           this.oldEvents = this.events;
           this.refresh();
         } else {
-          this.showSnackbar(valideDate.error, null, 5000);
-          this.deleteMeetings(this.newEvent);
+          this.showErrorSnackbar(valideDate.error, null, 5000);
+          this.deleteMeeting(this.newEvent);
           this.refresh();
           return;
         }
@@ -309,8 +288,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
 
     if (eventAdded.start < new Date()) {
       valideDate = false;
-      msgError =
-        "La date sélectionnée est passée";
+      msgError = "La date sélectionnée est passée";
     }
     if (eventAdded.start == eventAdded.end) {
       valideDate = false;
@@ -323,33 +301,33 @@ export class TimetableComponent implements OnInit, OnDestroy {
         "La date de début de reservation ne peut pas être supérieure à la date de fin";
     }
 
-    this.timetable.forEach(day => {
+    this.timetable.forEach((day) => {
       let openingHour: Date = new Date(day.openingTime);
       let closureHour: Date = new Date(day.closureTime);
       if (
         Number(day.openingDay) == eventAdded.start.getDay() &&
-          (eventAdded.start.getHours() < openingHour.getHours() ||
-        eventAdded.end.getHours() > closureHour.getHours())
+        (eventAdded.start.getHours() < openingHour.getHours() ||
+          eventAdded.end.getHours() > closureHour.getHours())
       ) {
         valideDate = false;
-        msgError =
-          "La salle est fermée aux horaires sélectionnés";
+        msgError = "La salle est fermée aux horaires sélectionnés";
       }
-
     });
 
     this.oldEvents.forEach((event) => {
-      if (
-        (eventAdded.start >= event.start && eventAdded.end <= event.end) ||
-        (eventAdded.start <= event.start && eventAdded.end >= event.end) ||
-        (eventAdded.start <= event.start &&
-          eventAdded.end <= event.end &&
-          eventAdded.end >= event.start) ||
-        (eventAdded.start >= event.start && eventAdded.start <= event.end)
-      ) {
-        valideDate = false;
-        msgError =
-          "Cette salle est déjà reservée aux horaires choisis. Veuillez modifier votre réservation";
+      if (eventAdded.id != event.id) {
+        if (
+          (eventAdded.start >= event.start && eventAdded.end <= event.end) ||
+          (eventAdded.start <= event.start && eventAdded.end >= event.end) ||
+          (eventAdded.start <= event.start &&
+            eventAdded.end <= event.end &&
+            eventAdded.end >= event.start) ||
+          (eventAdded.start >= event.start && eventAdded.start <= event.end)
+        ) {
+          valideDate = false;
+          msgError =
+            "Cette salle est déjà reservée aux horaires choisis. Veuillez modifier votre réservation";
+        }
       }
     });
     let error = {
@@ -365,14 +343,51 @@ export class TimetableComponent implements OnInit, OnDestroy {
     return date;
   }
 
-  public updateMeeting(event:CalendarEvent) {
-    //this.meetingService.updateMeeting();
+  private getMeeetingForm() {
+    let meeting: Meeting = {
+      meetingRoom: {
+        id: Number(this.activatedRoute.snapshot.paramMap.get("id")),
+      },
+      startDate: this.newEvent.start.toISOString(),
+      endDate: this.newEvent.end.toISOString(),
+      user: { id: this.authentificationService.currentUserId },
+    };
+
+    return meeting;
   }
 
-  public deleteMeetings(event:CalendarEvent) {
-    console.log(event)
+  public createMeeting() {
+    this.meetingService
+      .postMeeting(this.getMeeetingForm())
+      .subscribe((meeting) => {
+        this.showSuccessSnackbar("Ajout effectué", 5000);
+      },
+        (err) => {
+          this.showErrorSnackbar("Une erreur s'est produite", 5000);
+        });
+  }
+
+  public updateMeeting(id: number) {
+    this.meetingService
+      .updateMeeting(id, this.getMeeetingForm())
+      .subscribe((meeting) => {
+        this.showSuccessSnackbar("Modificationn effectuée", 5000);
+      },
+        (err) => {
+          this.showErrorSnackbar("Une erreur s'est produite", 5000);
+        });
+  }
+
+  public deleteMeeting(event: CalendarEvent) {
     if (event.id) {
-      this.meetingService.deleteMeeting(Number(event.id));
+      this.meetingService.deleteMeeting(Number(event.id)).subscribe(
+        (meeting) => {
+          this.showSuccessSnackbar("Supression effectuée", 5000);
+        },
+        (err) => {
+          this.showErrorSnackbar("Une erreur s'est produite", 5000);
+        }
+      );
     }
     this.events = this.events.filter((iEvent) => iEvent !== event);
   }
@@ -382,7 +397,24 @@ export class TimetableComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  private showSnackbar(message, action, duration, className = "red-snackbar") {
+  private showErrorSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "red-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
+  }
+
+  private showSuccessSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "green-snackbar"
+  ) {
     this.matSnackBar.open(message, action, {
       duration: duration,
       panelClass: [className],
