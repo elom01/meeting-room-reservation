@@ -20,13 +20,19 @@ export class TimetableService {
     });
   }
 
+  public getRoomTimetable(id:number) {
+    return this.http.get<Timetable[]>(
+      this.baseUrl + this.uri + "?meetingRoom.id=" + id,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
   public addTimetables(timetableList: Timetable[]) {
     timetableList.forEach((timetable) => {
-      console.log(timetable);
       if (timetable.id != null) {
-        this.deleteTimeTable(
-          timetable.id
-        ).subscribe((data) => {
+        this.deleteTimeTable(timetable.id).subscribe((data) => {
           timetable.id = null;
           this.postTimetable(timetable).subscribe((meeting) => {});
         });
@@ -42,7 +48,7 @@ export class TimetableService {
     });
   }
 
-  private updateTimeTable(id: number, timetable:Timetable) {
+  private updateTimeTable(id: number, timetable: Timetable) {
     return this.http.put(this.baseUrl + this.uri + "/" + id, {
       headers: this.headers,
     });

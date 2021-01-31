@@ -43,8 +43,4 @@ private getRegisterFormData() {
   get meetingRoomControle() {
     return this.formMeetingRoom.controls;
   }
-
-  public saveRoom(){
-
-  }
 }

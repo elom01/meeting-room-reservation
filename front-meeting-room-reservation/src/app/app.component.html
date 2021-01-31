@@ -10,7 +10,7 @@
     <mat-icon>meeting_room</mat-icon> Salles
   </button>
   <span class="spacer"></span>
-  <button color="link" mat-icon-button class="" [routerLink]="isAuthenticated ? '/profil':''" (click)="isAuthenticated ? null :openSideNav()">
+  <button color="link" mat-icon-button class="" [routerLink]="isAuthenticated ? '/profil':'!#'" (click)="isAuthenticated ? null :openSideNav()">
     <mat-icon>person</mat-icon>
   </button>
   <button *ngIf="isAuthenticated" color="link" mat-icon-button class="" (click)="publiclogout()">

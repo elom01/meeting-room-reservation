@@ -4,7 +4,7 @@ import { Input } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Subject } from "rxjs";
 import { RoomService } from "src/app/services/room.service";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from "@angular/material";
 import { DeleteDialogComponent } from "../../delete-dialog/delete-dialog.component";
 
 
@@ -25,6 +25,7 @@ export class AddMeetingRoomFormComponent implements OnInit {
     private meetingRoomService: RoomService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: number,
+    private matSnackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -48,17 +49,45 @@ export class AddMeetingRoomFormComponent implements OnInit {
       name: this.formMeetingRoom.value.name,
       floor: this.formMeetingRoom.value.floor,
       imageUrl: this.formMeetingRoom.value.imageUrl,
-      building: {id:this.data},
+      building: { id: this.data },
     };
     return newMeetingRoom;
   }
 
   public saveMeetingRoom() {
     let meetingRoom: MeetingRoom = this.getMeetingRoomData();
-    this.meetingRoomService
-      .postMeetingRoom( meetingRoom)
-      .subscribe((data) => {
-        console.log(data);
-      });
+    this.meetingRoomService.postMeetingRoom(meetingRoom).subscribe(
+      (data) => {
+        this.showSuccessSnackbar("La Salle de reunion a été ajoutée", 5000);
+        location.reload();
+      },
+      (err) => {
+        this.showErrorSnackbar("Une erreur s'est produite", 5000);
+      }
+    );
+  }
+
+  private showErrorSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "red-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
+  }
+
+  private showSuccessSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "green-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
   }
 }

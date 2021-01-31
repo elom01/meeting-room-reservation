@@ -94,7 +94,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.timetableService
-      .getTimetable()
+      .getRoomTimetable(this.idRoom)
       .subscribe((timetable) => {
         this.timetable = timetable;
         this.ifDataLoaded = true;
@@ -227,9 +227,9 @@ export class TimetableComponent implements OnInit, OnDestroy {
         },
         actions: [
           {
-            label: "<span>X</span>",
+            label: "<span style=color'red'>X</span>",
             onClick: ({ event }: { event: CalendarEvent }): void => {
-              this.events = this.events.filter((iEvent) => iEvent !== event);
+              this.removeEvent(event);
             },
           },
         ],
@@ -237,7 +237,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
       let valideDate = this.controleDate(this.newEvent);
       if (!valideDate.valide) {
         this.showErrorSnackbar(valideDate.error, null, 5000);
-        this.refresh();
+        this.removeEvent(this.newEvent);
         return;
       }
       this.events = [...this.events, this.newEvent];
@@ -269,15 +269,13 @@ export class TimetableComponent implements OnInit, OnDestroy {
         let valideDate = this.controleDate(this.newEvent);
         if (valideDate.valide) {
           this.createMeeting();
-
-          this.oldEvents = this.events;
           this.refresh();
         } else {
           this.showErrorSnackbar(valideDate.error, null, 5000);
-          this.deleteMeeting(this.newEvent);
-          this.refresh();
-          return;
+          this.removeEvent(this.newEvent);
         }
+      } else {
+        this.removeEvent(this.newEvent);
       }
     });
   }
@@ -357,25 +355,28 @@ export class TimetableComponent implements OnInit, OnDestroy {
   }
 
   public createMeeting() {
-    this.meetingService
-      .postMeeting(this.getMeeetingForm())
-      .subscribe((meeting) => {
+    this.meetingService.postMeeting(this.getMeeetingForm()).subscribe(
+      (meeting: Meeting) => {
         this.showSuccessSnackbar("Ajout effectué", 5000);
+        this.newEvent.id = meeting.id;
+        this.oldEvents = this.events;
       },
-        (err) => {
-          this.showErrorSnackbar("Une erreur s'est produite", 5000);
-        });
+      (err) => {
+        this.showErrorSnackbar("Une erreur s'est produite", 5000);
+      }
+    );
   }
 
   public updateMeeting(id: number) {
-    this.meetingService
-      .updateMeeting(id, this.getMeeetingForm())
-      .subscribe((meeting) => {
+    this.meetingService.updateMeeting(id, this.getMeeetingForm()).subscribe(
+      (meeting) => {
         this.showSuccessSnackbar("Modificationn effectuée", 5000);
+        this.oldEvents = this.events;
       },
-        (err) => {
-          this.showErrorSnackbar("Une erreur s'est produite", 5000);
-        });
+      (err) => {
+        this.showErrorSnackbar("Une erreur s'est produite", 5000);
+      }
+    );
   }
 
   public deleteMeeting(event: CalendarEvent) {
@@ -383,13 +384,14 @@ export class TimetableComponent implements OnInit, OnDestroy {
       this.meetingService.deleteMeeting(Number(event.id)).subscribe(
         (meeting) => {
           this.showSuccessSnackbar("Supression effectuée", 5000);
+          this.oldEvents = this.events;
         },
         (err) => {
           this.showErrorSnackbar("Une erreur s'est produite", 5000);
         }
       );
     }
-    this.events = this.events.filter((iEvent) => iEvent !== event);
+    this.removeEvent(event);
   }
 
   private refresh() {
@@ -419,5 +421,10 @@ export class TimetableComponent implements OnInit, OnDestroy {
       duration: duration,
       panelClass: [className],
     });
+  }
+
+  public removeEvent(event:CalendarEvent){
+    this.events = this.events.filter((iEvent) => iEvent !== event);
+    this.refresh();
   }
 }

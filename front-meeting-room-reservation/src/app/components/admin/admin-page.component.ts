@@ -26,7 +26,8 @@ export class AdminPageComponent implements OnInit, OnDestroy {
   constructor(
     private _snackBar: MatSnackBar,
     private buildingService: BuildingService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private matSnackBar:MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -63,7 +64,6 @@ export class AdminPageComponent implements OnInit, OnDestroy {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("closed");
     });
   }
 
@@ -81,23 +81,28 @@ export class AdminPageComponent implements OnInit, OnDestroy {
       .getBuildingMeetingRooms(building.id)
       .subscribe((meetingRooms) => {
         this.formatTimetable(meetingRooms);
+      },(error)=>{
+        this.showSuccessSnackbar("Une erreur s'est produite", 5000);
       });
   }
 
-  public deleteBuilding() {
-    let dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: "300px",
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.buildingService
-          .deleteBuilding(this.building.id)
-          .subscribe((building) => {
-            console.log(building);
-          });
-      }
-    });
-  }
+  // public deleteBuilding() {
+  //   let dialogRef = this.dialog.open(DeleteDialogComponent, {
+  //     width: "300px",
+  //   });
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.buildingService
+  //         .deleteBuilding(this.building.id)
+  //         .subscribe((building) => {
+  //           console.log(building);
+  //           this.showErrorSnackbar("Le bâtiement a bien été supprimé",5000);
+  //         },(error)=>{
+  //           this.showSuccessSnackbar("Une erreur s'est produite",5000);
+  //         });
+  //     }
+  //   });
+  // }
 
   private formatTimetable(meetingRooms) {
     this.meetingRoomsList = [];
@@ -180,4 +185,30 @@ export class AdminPageComponent implements OnInit, OnDestroy {
     }
     return id;
   }
+
+
+  private showErrorSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "red-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
+  }
+
+  private showSuccessSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "green-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
+  }
+
 }

@@ -25,7 +25,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   public dataMeeting: Meeting;
 
-  @ViewChild("id_room", { static: true }) idRoom: ElementRef;
+  // @ViewChild("id_room", { static: true }) idRoom: ElementRef;
+  public idRoom: number;
 
   constructor(
     private roomService: RoomService,
@@ -37,8 +38,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.idRoom = Number(this.activatedRoute.snapshot.paramMap.get("id"));
     this.subscription = this.roomService
-      .getMeetingRoom(Number(this.activatedRoute.snapshot.paramMap.get("id")))
+      .getMeetingRoom(this.idRoom)
       .subscribe((meetingRoom) => {
         this.room = meetingRoom;
       });

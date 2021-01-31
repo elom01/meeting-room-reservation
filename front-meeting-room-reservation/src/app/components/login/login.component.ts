@@ -8,6 +8,7 @@ import {
 import { Subject } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { first } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "login",
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthentificationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private matSnackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -52,14 +54,43 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
-            console.log("=========>",data)
+            console.log("=========>", data);
             location.reload();
+            this.showSuccessSnackbar("Vous êtes connecté(e)", 5000);
           },
           (error) => {
             this.error = error;
             this.loading = false;
+            this.showErrorSnackbar(
+              "Une erreur s'est produite. Veuillez vérifier vos identifiants",
+              5000
+            );
           }
         );
     }
+  }
+
+  private showErrorSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "red-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
+  }
+
+  private showSuccessSnackbar(
+    message,
+    duration,
+    action = null,
+    className = "green-snackbar"
+  ) {
+    this.matSnackBar.open(message, action, {
+      duration: duration,
+      panelClass: [className],
+    });
   }
 }
