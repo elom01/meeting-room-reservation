@@ -2,6 +2,7 @@
 
 Prérequis:
 - installer php
+- installer Symfony
 - installer node
 - installer composer
 
@@ -22,3 +23,7 @@ Initialisation du Front Angular (dossier : front-meeting-room-reservation)
 Commandes:
 - npm install
 - ng serve
+
+Identifiant de l'utilisateur Administrateur:
+- Identifiant: admin@mail.fr
+- Mot de passe : password
